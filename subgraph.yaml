@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0x2Faf8a99390Bc8E4721B7c506220d95B1753310B"
       abi: Gringotts
-      startBlock: 21244853
+      startBlock: 21212574
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

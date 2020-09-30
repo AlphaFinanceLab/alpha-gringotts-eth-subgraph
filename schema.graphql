@@ -4,3 +4,21 @@ type GETHTransfer @entity {
   to: Bytes!
   value: BigInt! # uint256
 }
+
+type Balance @entity {
+  id: ID!
+  amount: BigInt!
+}
+
+type GringottsSummary @entity {
+  id: ID!
+  gETHSupply: BigInt!
+  totalETH: BigInt!
+}
+
+type Position @entity {
+  id: ID!
+  goblin: Bytes!
+  owner: Bytes!
+  debtShare: BigInt! # uint256
+}
