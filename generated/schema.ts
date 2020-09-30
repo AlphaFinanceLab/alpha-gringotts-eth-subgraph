@@ -157,6 +157,24 @@ export class GringottsSummary extends Entity {
   set totalETH(value: BigInt) {
     this.set("totalETH", Value.fromBigInt(value));
   }
+
+  get totalDebtShare(): BigInt {
+    let value = this.get("totalDebtShare");
+    return value.toBigInt();
+  }
+
+  set totalDebtShare(value: BigInt) {
+    this.set("totalDebtShare", Value.fromBigInt(value));
+  }
+
+  get totalDebtValue(): BigInt {
+    let value = this.get("totalDebtValue");
+    return value.toBigInt();
+  }
+
+  set totalDebtValue(value: BigInt) {
+    this.set("totalDebtValue", Value.fromBigInt(value));
+  }
 }
 
 export class Position extends Entity {

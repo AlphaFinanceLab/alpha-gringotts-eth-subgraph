@@ -72,22 +72,26 @@ import { GETHTransfer, Balance, GringottsSummary, Position } from "../generated/
 
 export function handleAddDebt(event: AddDebt) : void {
   updatePosition(event.address, event.params.id);
+  updateGringottsSummary(event.address);
 }
 
 export function handleAlohomora(event: Alohomora): void {
   updatePosition(event.address, event.params.id);
+  updateGringottsSummary(event.address);
 }
 
 export function handleApproval(event: Approval): void { }
 
 export function handleKedavra(event: Kedavra): void { 
   updatePosition(event.address, event.params.id);
+  updateGringottsSummary(event.address);
 }
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void { }
 
 export function handleRemoveDebt(event: RemoveDebt): void { 
   updatePosition(event.address, event.params.id);
+  updateGringottsSummary(event.address);
 }
 
 export function handleTransfer(event: Transfer): void {
@@ -127,6 +131,8 @@ function updateGringottsSummary(gringottsAddress :Address): void {
   let gringotts = Gringotts.bind(gringottsAddress);
   summary.gETHSupply = gringotts.totalSupply()
   summary.totalETH = gringotts.totalETH()
+  summary.totalDebtShare = gringotts.glbDebtShare()
+  summary.totalDebtValue = gringotts.glbDebtVal()
   summary.save()
 }
 

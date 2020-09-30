@@ -14,6 +14,8 @@ type GringottsSummary @entity {
   id: ID!
   gETHSupply: BigInt!
   totalETH: BigInt!
+  totalDebtShare: BigInt!
+  totalDebtValue: BigInt!
 }
 
 type Position @entity {
