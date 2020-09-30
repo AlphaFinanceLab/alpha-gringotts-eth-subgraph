@@ -1,27 +1,42 @@
 specVersion: 0.0.2
-description: Gravatar for Ethereum
-repository: https://github.com/graphprotocol/example-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Gravity
-    network: mainnet
+    name: Gringotts
+    network: kovan
     source:
-      address: '0x2E645469f354BB4F5c8a05B3b30A929361cf77eC'
-      abi: Gravity
+      address: "0x2Faf8a99390Bc8E4721B7c506220d95B1753310B"
+      abi: Gringotts
+      startBlock: 21244853
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Gravatar
+        - AddDebt
+        - Alohomora
+        - Approval
+        - Kedavra
+        - OwnershipTransferred
+        - RemoveDebt
+        - Transfer
       abis:
-        - name: Gravity
-          file: ./abis/Gravity.json
+        - name: Gringotts
+          file: ./abis/Gringotts.json
       eventHandlers:
-        - event: NewGravatar(uint256,address,string,string)
-          handler: handleNewGravatar
-        - event: UpdatedGravatar(uint256,address,string,string)
-          handler: handleUpdatedGravatar
+        - event: AddDebt(indexed uint256,uint256)
+          handler: handleAddDebt
+        - event: Alohomora(indexed uint256,uint256)
+          handler: handleAlohomora
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: Kedavra(indexed uint256,indexed address,uint256,uint256)
+          handler: handleKedavra
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: RemoveDebt(indexed uint256,uint256)
+          handler: handleRemoveDebt
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
       file: ./src/mapping.ts

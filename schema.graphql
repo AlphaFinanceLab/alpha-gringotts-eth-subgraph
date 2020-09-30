@@ -1,6 +1,6 @@
-type Gravatar @entity {
+type GETHTransfer @entity {
   id: ID!
-  owner: Bytes!
-  displayName: String!
-  imageUrl: String!
+  from: Bytes!
+  to: Bytes!
+  value: BigInt! # uint256
 }
