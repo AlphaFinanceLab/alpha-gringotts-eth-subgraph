@@ -1,4 +1,4 @@
-import { BigInt, ethereum } from "@graphprotocol/graph-ts"
+import { BigInt, Address, ethereum } from "@graphprotocol/graph-ts"
 import {
   Gringotts,
   AddDebt,
@@ -70,22 +70,25 @@ import { GETHTransfer, Balance, GringottsSummary, Position } from "../generated/
   // - contract.totalETH(...)
 } */
 
-export function handleAddDebt(event: AddDebt) : void {}
+export function handleAddDebt(event: AddDebt) : void {
+  updatePosition(event.address, event.params.id);
+}
 
-export function handleAlohomora(event: Alohomora): void { 
-  // const id = event.params.id.toString()
-  // const position = new Position(id)
-
-
+export function handleAlohomora(event: Alohomora): void {
+  updatePosition(event.address, event.params.id);
 }
 
 export function handleApproval(event: Approval): void { }
 
-export function handleKedavra(event: Kedavra): void { }
+export function handleKedavra(event: Kedavra): void { 
+  updatePosition(event.address, event.params.id);
+}
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void { }
 
-export function handleRemoveDebt(event: RemoveDebt): void { }
+export function handleRemoveDebt(event: RemoveDebt): void { 
+  updatePosition(event.address, event.params.id);
+}
 
 export function handleTransfer(event: Transfer): void {
   let transactionId = event.transaction.hash.toHexString() + "-" + event.logIndex.toHexString()
@@ -113,13 +116,31 @@ export function handleTransfer(event: Transfer): void {
   }
   recipient.amount = recipient.amount.plus(transfer.value)
   recipient.save()
+  updateGringottsSummary(event.address);
+}
 
+function updateGringottsSummary(gringottsAddress :Address): void {
   let summary = GringottsSummary.load("Gringotts")
   if (summary == null) {
     summary = new GringottsSummary("Gringotts")
   }
-  let gringotts = Gringotts.bind(event.address);
+  let gringotts = Gringotts.bind(gringottsAddress);
   summary.gETHSupply = gringotts.totalSupply()
   summary.totalETH = gringotts.totalETH()
   summary.save()
+}
+
+function updatePosition(gringottsAddress :Address, positionId: BigInt): void {
+  let id = positionId.toHexString()
+  let position = Position.load(id)
+  if (position == null) {
+    position = new Position(id)
+    position.debtShare = BigInt.fromI32(0)
+  }
+  let gringotts = Gringotts.bind(gringottsAddress);
+  let result = gringotts.positions(positionId)
+  position.goblin = result.value0
+  position.owner = result.value1
+  position.debtShare = result.value2
+  position.save()
 }
