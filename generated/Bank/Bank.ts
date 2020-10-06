@@ -32,28 +32,6 @@ export class AddDebt__Params {
   }
 }
 
-export class Alohomora extends ethereum.Event {
-  get params(): Alohomora__Params {
-    return new Alohomora__Params(this);
-  }
-}
-
-export class Alohomora__Params {
-  _event: Alohomora;
-
-  constructor(event: Alohomora) {
-    this._event = event;
-  }
-
-  get id(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get loan(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-}
-
 export class Approval extends ethereum.Event {
   get params(): Approval__Params {
     return new Approval__Params(this);
@@ -80,16 +58,16 @@ export class Approval__Params {
   }
 }
 
-export class Kedavra extends ethereum.Event {
-  get params(): Kedavra__Params {
-    return new Kedavra__Params(this);
+export class Kill extends ethereum.Event {
+  get params(): Kill__Params {
+    return new Kill__Params(this);
   }
 }
 
-export class Kedavra__Params {
-  _event: Kedavra;
+export class Kill__Params {
+  _event: Kill;
 
-  constructor(event: Kedavra) {
+  constructor(event: Kill) {
     this._event = event;
   }
 
@@ -180,7 +158,29 @@ export class Transfer__Params {
   }
 }
 
-export class Gringotts__positionsResult {
+export class Work extends ethereum.Event {
+  get params(): Work__Params {
+    return new Work__Params(this);
+  }
+}
+
+export class Work__Params {
+  _event: Work;
+
+  constructor(event: Work) {
+    this._event = event;
+  }
+
+  get id(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get loan(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class Bank__positionsResult {
   value0: Address;
   value1: Address;
   value2: BigInt;
@@ -200,7 +200,7 @@ export class Gringotts__positionsResult {
   }
 }
 
-export class Gringotts__positionInfoResult {
+export class Bank__positionInfoResult {
   value0: BigInt;
   value1: BigInt;
 
@@ -217,9 +217,9 @@ export class Gringotts__positionInfoResult {
   }
 }
 
-export class Gringotts extends ethereum.SmartContract {
-  static bind(address: Address): Gringotts {
-    return new Gringotts("Gringotts", address);
+export class Bank extends ethereum.SmartContract {
+  static bind(address: Address): Bank {
+    return new Bank("Bank", address);
   }
 
   allowance(owner: Address, spender: Address): BigInt {
@@ -492,23 +492,21 @@ export class Gringotts extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  positions(param0: BigInt): Gringotts__positionsResult {
+  positions(param0: BigInt): Bank__positionsResult {
     let result = super.call(
       "positions",
       "positions(uint256):(address,address,uint256)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
-    return new Gringotts__positionsResult(
+    return new Bank__positionsResult(
       result[0].toAddress(),
       result[1].toAddress(),
       result[2].toBigInt()
     );
   }
 
-  try_positions(
-    param0: BigInt
-  ): ethereum.CallResult<Gringotts__positionsResult> {
+  try_positions(param0: BigInt): ethereum.CallResult<Bank__positionsResult> {
     let result = super.tryCall(
       "positions",
       "positions(uint256):(address,address,uint256)",
@@ -519,7 +517,7 @@ export class Gringotts extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new Gringotts__positionsResult(
+      new Bank__positionsResult(
         value[0].toAddress(),
         value[1].toAddress(),
         value[2].toBigInt()
@@ -700,22 +698,20 @@ export class Gringotts extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  positionInfo(id: BigInt): Gringotts__positionInfoResult {
+  positionInfo(id: BigInt): Bank__positionInfoResult {
     let result = super.call(
       "positionInfo",
       "positionInfo(uint256):(uint256,uint256)",
       [ethereum.Value.fromUnsignedBigInt(id)]
     );
 
-    return new Gringotts__positionInfoResult(
+    return new Bank__positionInfoResult(
       result[0].toBigInt(),
       result[1].toBigInt()
     );
   }
 
-  try_positionInfo(
-    id: BigInt
-  ): ethereum.CallResult<Gringotts__positionInfoResult> {
+  try_positionInfo(id: BigInt): ethereum.CallResult<Bank__positionInfoResult> {
     let result = super.tryCall(
       "positionInfo",
       "positionInfo(uint256):(uint256,uint256)",
@@ -726,10 +722,7 @@ export class Gringotts extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new Gringotts__positionInfoResult(
-        value[0].toBigInt(),
-        value[1].toBigInt()
-      )
+      new Bank__positionInfoResult(value[0].toBigInt(), value[1].toBigInt())
     );
   }
 
@@ -1055,46 +1048,46 @@ export class TransferOwnershipCall__Outputs {
   }
 }
 
-export class EngorgioCall extends ethereum.Call {
-  get inputs(): EngorgioCall__Inputs {
-    return new EngorgioCall__Inputs(this);
+export class DepositCall extends ethereum.Call {
+  get inputs(): DepositCall__Inputs {
+    return new DepositCall__Inputs(this);
   }
 
-  get outputs(): EngorgioCall__Outputs {
-    return new EngorgioCall__Outputs(this);
+  get outputs(): DepositCall__Outputs {
+    return new DepositCall__Outputs(this);
   }
 }
 
-export class EngorgioCall__Inputs {
-  _call: EngorgioCall;
+export class DepositCall__Inputs {
+  _call: DepositCall;
 
-  constructor(call: EngorgioCall) {
+  constructor(call: DepositCall) {
     this._call = call;
   }
 }
 
-export class EngorgioCall__Outputs {
-  _call: EngorgioCall;
+export class DepositCall__Outputs {
+  _call: DepositCall;
 
-  constructor(call: EngorgioCall) {
+  constructor(call: DepositCall) {
     this._call = call;
   }
 }
 
-export class ReducioCall extends ethereum.Call {
-  get inputs(): ReducioCall__Inputs {
-    return new ReducioCall__Inputs(this);
+export class WithdrawCall extends ethereum.Call {
+  get inputs(): WithdrawCall__Inputs {
+    return new WithdrawCall__Inputs(this);
   }
 
-  get outputs(): ReducioCall__Outputs {
-    return new ReducioCall__Outputs(this);
+  get outputs(): WithdrawCall__Outputs {
+    return new WithdrawCall__Outputs(this);
   }
 }
 
-export class ReducioCall__Inputs {
-  _call: ReducioCall;
+export class WithdrawCall__Inputs {
+  _call: WithdrawCall;
 
-  constructor(call: ReducioCall) {
+  constructor(call: WithdrawCall) {
     this._call = call;
   }
 
@@ -1103,28 +1096,28 @@ export class ReducioCall__Inputs {
   }
 }
 
-export class ReducioCall__Outputs {
-  _call: ReducioCall;
+export class WithdrawCall__Outputs {
+  _call: WithdrawCall;
 
-  constructor(call: ReducioCall) {
+  constructor(call: WithdrawCall) {
     this._call = call;
   }
 }
 
-export class AlohomoraCall extends ethereum.Call {
-  get inputs(): AlohomoraCall__Inputs {
-    return new AlohomoraCall__Inputs(this);
+export class WorkCall extends ethereum.Call {
+  get inputs(): WorkCall__Inputs {
+    return new WorkCall__Inputs(this);
   }
 
-  get outputs(): AlohomoraCall__Outputs {
-    return new AlohomoraCall__Outputs(this);
+  get outputs(): WorkCall__Outputs {
+    return new WorkCall__Outputs(this);
   }
 }
 
-export class AlohomoraCall__Inputs {
-  _call: AlohomoraCall;
+export class WorkCall__Inputs {
+  _call: WorkCall;
 
-  constructor(call: AlohomoraCall) {
+  constructor(call: WorkCall) {
     this._call = call;
   }
 
@@ -1149,28 +1142,28 @@ export class AlohomoraCall__Inputs {
   }
 }
 
-export class AlohomoraCall__Outputs {
-  _call: AlohomoraCall;
+export class WorkCall__Outputs {
+  _call: WorkCall;
 
-  constructor(call: AlohomoraCall) {
+  constructor(call: WorkCall) {
     this._call = call;
   }
 }
 
-export class KedavraCall extends ethereum.Call {
-  get inputs(): KedavraCall__Inputs {
-    return new KedavraCall__Inputs(this);
+export class KillCall extends ethereum.Call {
+  get inputs(): KillCall__Inputs {
+    return new KillCall__Inputs(this);
   }
 
-  get outputs(): KedavraCall__Outputs {
-    return new KedavraCall__Outputs(this);
+  get outputs(): KillCall__Outputs {
+    return new KillCall__Outputs(this);
   }
 }
 
-export class KedavraCall__Inputs {
-  _call: KedavraCall;
+export class KillCall__Inputs {
+  _call: KillCall;
 
-  constructor(call: KedavraCall) {
+  constructor(call: KillCall) {
     this._call = call;
   }
 
@@ -1179,10 +1172,10 @@ export class KedavraCall__Inputs {
   }
 }
 
-export class KedavraCall__Outputs {
-  _call: KedavraCall;
+export class KillCall__Outputs {
+  _call: KillCall;
 
-  constructor(call: KedavraCall) {
+  constructor(call: KillCall) {
     this._call = call;
   }
 }
@@ -1247,6 +1240,36 @@ export class WithdrawReserveCall__Outputs {
   _call: WithdrawReserveCall;
 
   constructor(call: WithdrawReserveCall) {
+    this._call = call;
+  }
+}
+
+export class ReduceReserveCall extends ethereum.Call {
+  get inputs(): ReduceReserveCall__Inputs {
+    return new ReduceReserveCall__Inputs(this);
+  }
+
+  get outputs(): ReduceReserveCall__Outputs {
+    return new ReduceReserveCall__Outputs(this);
+  }
+}
+
+export class ReduceReserveCall__Inputs {
+  _call: ReduceReserveCall;
+
+  constructor(call: ReduceReserveCall) {
+    this._call = call;
+  }
+
+  get value(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class ReduceReserveCall__Outputs {
+  _call: ReduceReserveCall;
+
+  constructor(call: ReduceReserveCall) {
     this._call = call;
   }
 }

@@ -3,36 +3,36 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Gringotts
+    name: Bank
     network: kovan
     source:
-      address: "0x2Faf8a99390Bc8E4721B7c506220d95B1753310B"
-      abi: Gringotts
-      startBlock: 21212574
+      address: "0xE9cD6023637992bbcbea059228727861F676Cf81"
+      abi: Bank
+      startBlock: 21377010
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - AddDebt
-        - Alohomora
+        - Work
         - Approval
-        - Kedavra
+        - Kill
         - OwnershipTransferred
         - RemoveDebt
         - Transfer
       abis:
-        - name: Gringotts
-          file: ./abis/Gringotts.json
+        - name: Bank
+          file: ./abis/Bank.json
       eventHandlers:
         - event: AddDebt(indexed uint256,uint256)
           handler: handleAddDebt
-        - event: Alohomora(indexed uint256,uint256)
-          handler: handleAlohomora
+        - event: Work(indexed uint256,uint256)
+          handler: handleWork
         - event: Approval(indexed address,indexed address,uint256)
           handler: handleApproval
-        - event: Kedavra(indexed uint256,indexed address,uint256,uint256)
-          handler: handleKedavra
+        - event: Kill(indexed uint256,indexed address,uint256,uint256)
+          handler: handleKill
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
         - event: RemoveDebt(indexed uint256,uint256)

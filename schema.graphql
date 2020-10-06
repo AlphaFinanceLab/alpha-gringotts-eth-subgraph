@@ -10,7 +10,7 @@ type Balance @entity {
   amount: BigInt!
 }
 
-type GringottsSummary @entity {
+type BankSummary @entity {
   id: ID!
   gETHSupply: BigInt!
   totalETH: BigInt!

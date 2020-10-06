@@ -1,15 +1,15 @@
 import { BigInt, Address, ethereum } from "@graphprotocol/graph-ts"
 import {
-  Gringotts,
+  Bank,
   AddDebt,
-  Alohomora,
+  Work,
   Approval,
-  Kedavra,
+  Kill,
   OwnershipTransferred,
   RemoveDebt,
   Transfer
-} from "../generated/Gringotts/Gringotts"
-import { GETHTransfer, Balance, GringottsSummary, Position } from "../generated/schema"
+} from "../generated/Bank/Bank"
+import { GETHTransfer, Balance, BankSummary, Position } from "../generated/schema"
 
 /* export function handleAddDebt(event: AddDebt): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -72,26 +72,26 @@ import { GETHTransfer, Balance, GringottsSummary, Position } from "../generated/
 
 export function handleAddDebt(event: AddDebt) : void {
   updatePosition(event.address, event.params.id);
-  updateGringottsSummary(event.address);
+  updateBankSummary(event.address);
 }
 
-export function handleAlohomora(event: Alohomora): void {
+export function handleWork(event: Work): void {
   updatePosition(event.address, event.params.id);
-  updateGringottsSummary(event.address);
+  updateBankSummary(event.address);
 }
 
 export function handleApproval(event: Approval): void { }
 
-export function handleKedavra(event: Kedavra): void { 
+export function handleKill(event: Kill): void { 
   updatePosition(event.address, event.params.id);
-  updateGringottsSummary(event.address);
+  updateBankSummary(event.address);
 }
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void { }
 
 export function handleRemoveDebt(event: RemoveDebt): void { 
   updatePosition(event.address, event.params.id);
-  updateGringottsSummary(event.address);
+  updateBankSummary(event.address);
 }
 
 export function handleTransfer(event: Transfer): void {
@@ -120,31 +120,31 @@ export function handleTransfer(event: Transfer): void {
   }
   recipient.amount = recipient.amount.plus(transfer.value)
   recipient.save()
-  updateGringottsSummary(event.address);
+  updateBankSummary(event.address);
 }
 
-function updateGringottsSummary(gringottsAddress :Address): void {
-  let summary = GringottsSummary.load("Gringotts")
+function updateBankSummary(bankAddress :Address): void {
+  let summary = BankSummary.load("Gringotts")
   if (summary == null) {
-    summary = new GringottsSummary("Gringotts")
+    summary = new BankSummary("Gringotts")
   }
-  let gringotts = Gringotts.bind(gringottsAddress);
-  summary.gETHSupply = gringotts.totalSupply()
-  summary.totalETH = gringotts.totalETH()
-  summary.totalDebtShare = gringotts.glbDebtShare()
-  summary.totalDebtValue = gringotts.glbDebtVal()
+  let bank = Bank.bind(bankAddress);
+  summary.gETHSupply = bank.totalSupply()
+  summary.totalETH = bank.totalETH()
+  summary.totalDebtShare = bank.glbDebtShare()
+  summary.totalDebtValue = bank.glbDebtVal()
   summary.save()
 }
 
-function updatePosition(gringottsAddress :Address, positionId: BigInt): void {
+function updatePosition(bankAddress :Address, positionId: BigInt): void {
   let id = positionId.toHexString()
   let position = Position.load(id)
   if (position == null) {
     position = new Position(id)
     position.debtShare = BigInt.fromI32(0)
   }
-  let gringotts = Gringotts.bind(gringottsAddress);
-  let result = gringotts.positions(positionId)
+  let bank = Bank.bind(bankAddress);
+  let result = bank.positions(positionId)
   position.goblin = result.value0
   position.owner = result.value1
   position.debtShare = result.value2
