@@ -12,7 +12,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class GETHTransfer extends Entity {
+export class IBETHTransfer extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -20,17 +20,17 @@ export class GETHTransfer extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save GETHTransfer entity without an ID");
+    assert(id !== null, "Cannot save IBETHTransfer entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save GETHTransfer entity with non-string ID. " +
+      "Cannot save IBETHTransfer entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("GETHTransfer", id.toString(), this);
+    store.set("IBETHTransfer", id.toString(), this);
   }
 
-  static load(id: string): GETHTransfer | null {
-    return store.get("GETHTransfer", id) as GETHTransfer | null;
+  static load(id: string): IBETHTransfer | null {
+    return store.get("IBETHTransfer", id) as IBETHTransfer | null;
   }
 
   get id(): string {
@@ -140,13 +140,13 @@ export class BankSummary extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get gETHSupply(): BigInt {
-    let value = this.get("gETHSupply");
+  get ibETHSupply(): BigInt {
+    let value = this.get("ibETHSupply");
     return value.toBigInt();
   }
 
-  set gETHSupply(value: BigInt) {
-    this.set("gETHSupply", Value.fromBigInt(value));
+  set ibETHSupply(value: BigInt) {
+    this.set("ibETHSupply", Value.fromBigInt(value));
   }
 
   get totalETH(): BigInt {

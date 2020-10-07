@@ -1,4 +1,4 @@
-type GETHTransfer @entity {
+type IBETHTransfer @entity {
   id: ID!
   from: Bytes!
   to: Bytes!
@@ -12,7 +12,7 @@ type Balance @entity {
 
 type BankSummary @entity {
   id: ID!
-  gETHSupply: BigInt!
+  ibETHSupply: BigInt!
   totalETH: BigInt!
   totalDebtShare: BigInt!
   totalDebtValue: BigInt!

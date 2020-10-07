@@ -9,7 +9,7 @@ import {
   RemoveDebt,
   Transfer
 } from "../generated/Bank/Bank"
-import { GETHTransfer, Balance, BankSummary, Position } from "../generated/schema"
+import { IBETHTransfer, Balance, BankSummary, Position } from "../generated/schema"
 
 /* export function handleAddDebt(event: AddDebt): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -96,7 +96,7 @@ export function handleRemoveDebt(event: RemoveDebt): void {
 
 export function handleTransfer(event: Transfer): void {
   let transactionId = event.transaction.hash.toHexString() + "-" + event.logIndex.toHexString()
-  let transfer = new GETHTransfer(transactionId)
+  let transfer = new IBETHTransfer(transactionId)
 
   transfer.from = event.params.from
   transfer.to = event.params.to
@@ -129,7 +129,7 @@ function updateBankSummary(bankAddress :Address): void {
     summary = new BankSummary("Gringotts")
   }
   let bank = Bank.bind(bankAddress);
-  summary.gETHSupply = bank.totalSupply()
+  summary.ibETHSupply = bank.totalSupply()
   summary.totalETH = bank.totalETH()
   summary.totalDebtShare = bank.glbDebtShare()
   summary.totalDebtValue = bank.glbDebtVal()
