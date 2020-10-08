@@ -60,7 +60,7 @@ dataSources:
         - name: UniswapGoblin
           file: ./abis/UniswapGoblin.json
       eventHandlers:
-        - event: Reinvest(indexed address,uint256)
+        - event: Reinvest(indexed address,uint256,uint256)
           handler: handleReinvest
         - event: AddShare(indexed uint256,uint256)
           handler: handleAddShare
@@ -89,7 +89,7 @@ dataSources:
         - name: UniswapGoblin
           file: ./abis/UniswapGoblin.json
       eventHandlers:
-        - event: Reinvest(indexed address,uint256)
+        - event: Reinvest(indexed address,uint256,uint256)
           handler: handleReinvest
         - event: AddShare(indexed uint256,uint256)
           handler: handleAddShare
@@ -118,7 +118,7 @@ dataSources:
         - name: UniswapGoblin
           file: ./abis/UniswapGoblin.json
       eventHandlers:
-        - event: Reinvest(indexed address,uint256)
+        - event: Reinvest(indexed address,uint256,uint256)
           handler: handleReinvest
         - event: AddShare(indexed uint256,uint256)
           handler: handleAddShare
@@ -147,7 +147,7 @@ dataSources:
         - name: UniswapGoblin
           file: ./abis/UniswapGoblin.json
       eventHandlers:
-        - event: Reinvest(indexed address,uint256)
+        - event: Reinvest(indexed address,uint256,uint256)
           handler: handleReinvest
         - event: AddShare(indexed uint256,uint256)
           handler: handleAddShare
@@ -176,7 +176,7 @@ dataSources:
         - name: UniswapGoblin
           file: ./abis/UniswapGoblin.json
       eventHandlers:
-        - event: Reinvest(indexed address,uint256)
+        - event: Reinvest(indexed address,uint256,uint256)
           handler: handleReinvest
         - event: AddShare(indexed uint256,uint256)
           handler: handleAddShare

@@ -9,12 +9,10 @@ import {
 import { Reinvest as ReinvestHistory } from "../../generated/schema"
 
 export function handleReinvest(event: Reinvest): void {
-  let goblin = UniswapGoblin.bind(event.address);
-  let reinvestBps = goblin.reinvestBountyBps();
   let reinvest = new ReinvestHistory(event.transaction.hash.toHexString())
   reinvest.caller = event.params.caller
   reinvest.reward = event.params.reward
-  reinvest.bounty = reinvest.reward.times(reinvestBps).div(BigInt.fromI32(100))
+  reinvest.bounty = event.params.bounty
   reinvest.blockTime = event.block.timestamp;
   reinvest.goblin = event.address;
   reinvest.save()

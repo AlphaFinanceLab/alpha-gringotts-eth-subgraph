@@ -96,6 +96,10 @@ export class Reinvest__Params {
   get reward(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
+
+  get bounty(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
 }
 
 export class RemoveShare extends ethereum.Event {
@@ -140,6 +144,29 @@ export class UniswapGoblin extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  balanceToShare(balance: BigInt): BigInt {
+    let result = super.call(
+      "balanceToShare",
+      "balanceToShare(uint256):(uint256)",
+      [ethereum.Value.fromUnsignedBigInt(balance)]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_balanceToShare(balance: BigInt): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "balanceToShare",
+      "balanceToShare(uint256):(uint256)",
+      [ethereum.Value.fromUnsignedBigInt(balance)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   fToken(): Address {
     let result = super.call("fToken", "fToken():(address)", []);
 
@@ -168,6 +195,60 @@ export class UniswapGoblin extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  getMktSellAmount(aIn: BigInt, rIn: BigInt, rOut: BigInt): BigInt {
+    let result = super.call(
+      "getMktSellAmount",
+      "getMktSellAmount(uint256,uint256,uint256):(uint256)",
+      [
+        ethereum.Value.fromUnsignedBigInt(aIn),
+        ethereum.Value.fromUnsignedBigInt(rIn),
+        ethereum.Value.fromUnsignedBigInt(rOut)
+      ]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_getMktSellAmount(
+    aIn: BigInt,
+    rIn: BigInt,
+    rOut: BigInt
+  ): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "getMktSellAmount",
+      "getMktSellAmount(uint256,uint256,uint256):(uint256)",
+      [
+        ethereum.Value.fromUnsignedBigInt(aIn),
+        ethereum.Value.fromUnsignedBigInt(rIn),
+        ethereum.Value.fromUnsignedBigInt(rOut)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  health(id: BigInt): BigInt {
+    let result = super.call("health", "health(uint256):(uint256)", [
+      ethereum.Value.fromUnsignedBigInt(id)
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_health(id: BigInt): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("health", "health(uint256):(uint256)", [
+      ethereum.Value.fromUnsignedBigInt(id)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   isOwner(): boolean {
@@ -283,6 +364,29 @@ export class UniswapGoblin extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  shareToBalance(share: BigInt): BigInt {
+    let result = super.call(
+      "shareToBalance",
+      "shareToBalance(uint256):(uint256)",
+      [ethereum.Value.fromUnsignedBigInt(share)]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_shareToBalance(share: BigInt): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "shareToBalance",
+      "shareToBalance(uint256):(uint256)",
+      [ethereum.Value.fromUnsignedBigInt(share)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   staking(): Address {
     let result = super.call("staking", "staking():(address)", []);
 
@@ -341,106 +445,6 @@ export class UniswapGoblin extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  shareToBalance(share: BigInt): BigInt {
-    let result = super.call(
-      "shareToBalance",
-      "shareToBalance(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(share)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_shareToBalance(share: BigInt): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "shareToBalance",
-      "shareToBalance(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(share)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  balanceToShare(balance: BigInt): BigInt {
-    let result = super.call(
-      "balanceToShare",
-      "balanceToShare(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(balance)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_balanceToShare(balance: BigInt): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "balanceToShare",
-      "balanceToShare(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(balance)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  getMktSellAmount(aIn: BigInt, rIn: BigInt, rOut: BigInt): BigInt {
-    let result = super.call(
-      "getMktSellAmount",
-      "getMktSellAmount(uint256,uint256,uint256):(uint256)",
-      [
-        ethereum.Value.fromUnsignedBigInt(aIn),
-        ethereum.Value.fromUnsignedBigInt(rIn),
-        ethereum.Value.fromUnsignedBigInt(rOut)
-      ]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_getMktSellAmount(
-    aIn: BigInt,
-    rIn: BigInt,
-    rOut: BigInt
-  ): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "getMktSellAmount",
-      "getMktSellAmount(uint256,uint256,uint256):(uint256)",
-      [
-        ethereum.Value.fromUnsignedBigInt(aIn),
-        ethereum.Value.fromUnsignedBigInt(rIn),
-        ethereum.Value.fromUnsignedBigInt(rOut)
-      ]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  health(id: BigInt): BigInt {
-    let result = super.call("health", "health(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(id)
-    ]);
-
-    return result[0].toBigInt();
-  }
-
-  try_health(id: BigInt): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("health", "health(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(id)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 }
 
@@ -528,130 +532,6 @@ export class DefaultCall__Outputs {
   }
 }
 
-export class RenounceOwnershipCall extends ethereum.Call {
-  get inputs(): RenounceOwnershipCall__Inputs {
-    return new RenounceOwnershipCall__Inputs(this);
-  }
-
-  get outputs(): RenounceOwnershipCall__Outputs {
-    return new RenounceOwnershipCall__Outputs(this);
-  }
-}
-
-export class RenounceOwnershipCall__Inputs {
-  _call: RenounceOwnershipCall;
-
-  constructor(call: RenounceOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class RenounceOwnershipCall__Outputs {
-  _call: RenounceOwnershipCall;
-
-  constructor(call: RenounceOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class TransferOwnershipCall extends ethereum.Call {
-  get inputs(): TransferOwnershipCall__Inputs {
-    return new TransferOwnershipCall__Inputs(this);
-  }
-
-  get outputs(): TransferOwnershipCall__Outputs {
-    return new TransferOwnershipCall__Outputs(this);
-  }
-}
-
-export class TransferOwnershipCall__Inputs {
-  _call: TransferOwnershipCall;
-
-  constructor(call: TransferOwnershipCall) {
-    this._call = call;
-  }
-
-  get newOwner(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class TransferOwnershipCall__Outputs {
-  _call: TransferOwnershipCall;
-
-  constructor(call: TransferOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class ReinvestCall extends ethereum.Call {
-  get inputs(): ReinvestCall__Inputs {
-    return new ReinvestCall__Inputs(this);
-  }
-
-  get outputs(): ReinvestCall__Outputs {
-    return new ReinvestCall__Outputs(this);
-  }
-}
-
-export class ReinvestCall__Inputs {
-  _call: ReinvestCall;
-
-  constructor(call: ReinvestCall) {
-    this._call = call;
-  }
-}
-
-export class ReinvestCall__Outputs {
-  _call: ReinvestCall;
-
-  constructor(call: ReinvestCall) {
-    this._call = call;
-  }
-}
-
-export class WorkCall extends ethereum.Call {
-  get inputs(): WorkCall__Inputs {
-    return new WorkCall__Inputs(this);
-  }
-
-  get outputs(): WorkCall__Outputs {
-    return new WorkCall__Outputs(this);
-  }
-}
-
-export class WorkCall__Inputs {
-  _call: WorkCall;
-
-  constructor(call: WorkCall) {
-    this._call = call;
-  }
-
-  get id(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get user(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get debt(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-
-  get data(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
-  }
-}
-
-export class WorkCall__Outputs {
-  _call: WorkCall;
-
-  constructor(call: WorkCall) {
-    this._call = call;
-  }
-}
-
 export class LiquidateCall extends ethereum.Call {
   get inputs(): LiquidateCall__Inputs {
     return new LiquidateCall__Inputs(this);
@@ -720,6 +600,92 @@ export class RecoverCall__Outputs {
   }
 }
 
+export class ReinvestCall extends ethereum.Call {
+  get inputs(): ReinvestCall__Inputs {
+    return new ReinvestCall__Inputs(this);
+  }
+
+  get outputs(): ReinvestCall__Outputs {
+    return new ReinvestCall__Outputs(this);
+  }
+}
+
+export class ReinvestCall__Inputs {
+  _call: ReinvestCall;
+
+  constructor(call: ReinvestCall) {
+    this._call = call;
+  }
+}
+
+export class ReinvestCall__Outputs {
+  _call: ReinvestCall;
+
+  constructor(call: ReinvestCall) {
+    this._call = call;
+  }
+}
+
+export class RenounceOwnershipCall extends ethereum.Call {
+  get inputs(): RenounceOwnershipCall__Inputs {
+    return new RenounceOwnershipCall__Inputs(this);
+  }
+
+  get outputs(): RenounceOwnershipCall__Outputs {
+    return new RenounceOwnershipCall__Outputs(this);
+  }
+}
+
+export class RenounceOwnershipCall__Inputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class RenounceOwnershipCall__Outputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class SetCriticalStrategiesCall extends ethereum.Call {
+  get inputs(): SetCriticalStrategiesCall__Inputs {
+    return new SetCriticalStrategiesCall__Inputs(this);
+  }
+
+  get outputs(): SetCriticalStrategiesCall__Outputs {
+    return new SetCriticalStrategiesCall__Outputs(this);
+  }
+}
+
+export class SetCriticalStrategiesCall__Inputs {
+  _call: SetCriticalStrategiesCall;
+
+  constructor(call: SetCriticalStrategiesCall) {
+    this._call = call;
+  }
+
+  get _addStrat(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _liqStrat(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+}
+
+export class SetCriticalStrategiesCall__Outputs {
+  _call: SetCriticalStrategiesCall;
+
+  constructor(call: SetCriticalStrategiesCall) {
+    this._call = call;
+  }
+}
+
 export class SetReinvestBountyBpsCall extends ethereum.Call {
   get inputs(): SetReinvestBountyBpsCall__Inputs {
     return new SetReinvestBountyBpsCall__Inputs(this);
@@ -767,8 +733,8 @@ export class SetStrategyOkCall__Inputs {
     this._call = call;
   }
 
-  get strat(): Address {
-    return this._call.inputValues[0].value.toAddress();
+  get strats(): Array<Address> {
+    return this._call.inputValues[0].value.toAddressArray();
   }
 
   get isOk(): boolean {
@@ -784,36 +750,74 @@ export class SetStrategyOkCall__Outputs {
   }
 }
 
-export class SetCriticalStrategiesCall extends ethereum.Call {
-  get inputs(): SetCriticalStrategiesCall__Inputs {
-    return new SetCriticalStrategiesCall__Inputs(this);
+export class TransferOwnershipCall extends ethereum.Call {
+  get inputs(): TransferOwnershipCall__Inputs {
+    return new TransferOwnershipCall__Inputs(this);
   }
 
-  get outputs(): SetCriticalStrategiesCall__Outputs {
-    return new SetCriticalStrategiesCall__Outputs(this);
+  get outputs(): TransferOwnershipCall__Outputs {
+    return new TransferOwnershipCall__Outputs(this);
   }
 }
 
-export class SetCriticalStrategiesCall__Inputs {
-  _call: SetCriticalStrategiesCall;
+export class TransferOwnershipCall__Inputs {
+  _call: TransferOwnershipCall;
 
-  constructor(call: SetCriticalStrategiesCall) {
+  constructor(call: TransferOwnershipCall) {
     this._call = call;
   }
 
-  get _addStrat(): Address {
+  get newOwner(): Address {
     return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _liqStrat(): Address {
-    return this._call.inputValues[1].value.toAddress();
   }
 }
 
-export class SetCriticalStrategiesCall__Outputs {
-  _call: SetCriticalStrategiesCall;
+export class TransferOwnershipCall__Outputs {
+  _call: TransferOwnershipCall;
 
-  constructor(call: SetCriticalStrategiesCall) {
+  constructor(call: TransferOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class WorkCall extends ethereum.Call {
+  get inputs(): WorkCall__Inputs {
+    return new WorkCall__Inputs(this);
+  }
+
+  get outputs(): WorkCall__Outputs {
+    return new WorkCall__Outputs(this);
+  }
+}
+
+export class WorkCall__Inputs {
+  _call: WorkCall;
+
+  constructor(call: WorkCall) {
+    this._call = call;
+  }
+
+  get id(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get user(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get debt(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get data(): Bytes {
+    return this._call.inputValues[3].value.toBytes();
+  }
+}
+
+export class WorkCall__Outputs {
+  _call: WorkCall;
+
+  constructor(call: WorkCall) {
     this._call = call;
   }
 }
