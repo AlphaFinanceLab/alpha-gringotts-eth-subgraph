@@ -5,7 +5,7 @@ import {
   AddShare,
   RemoveShare,
   Liquidate
-} from "../../generated/USDCGoblin/UniswapGoblin"
+} from "../../generated/DPIGoblin/UniswapGoblin"
 import { Reinvest as ReinvestHistory } from "../../generated/schema"
 
 export function handleReinvest(event: Reinvest): void {
