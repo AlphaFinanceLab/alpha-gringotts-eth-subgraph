@@ -24,3 +24,12 @@ type Position @entity {
   owner: Bytes!
   debtShare: BigInt! # uint256
 }
+
+type Reinvest @entity {
+  id: ID!
+  caller: Bytes!
+  reward: BigInt!
+  bounty: BigInt!
+  blockTime: BigInt!
+  goblin: Bytes!
+}
