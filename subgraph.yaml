@@ -59,6 +59,8 @@ dataSources:
       abis:
         - name: UniswapGoblin
           file: ./abis/UniswapGoblin.json
+        - name: StakingRewards
+          file: ./abis/StakingRewards.json
       eventHandlers:
         - event: Reinvest(indexed address,uint256,uint256)
           handler: handleReinvest
@@ -88,6 +90,8 @@ dataSources:
       abis:
         - name: UniswapGoblin
           file: ./abis/UniswapGoblin.json
+        - name: StakingRewards
+          file: ./abis/StakingRewards.json
       eventHandlers:
         - event: Reinvest(indexed address,uint256,uint256)
           handler: handleReinvest
@@ -117,6 +121,8 @@ dataSources:
       abis:
         - name: UniswapGoblin
           file: ./abis/UniswapGoblin.json
+        - name: StakingRewards
+          file: ./abis/StakingRewards.json
       eventHandlers:
         - event: Reinvest(indexed address,uint256,uint256)
           handler: handleReinvest
@@ -146,6 +152,8 @@ dataSources:
       abis:
         - name: UniswapGoblin
           file: ./abis/UniswapGoblin.json
+        - name: StakingRewards
+          file: ./abis/StakingRewards.json
       eventHandlers:
         - event: Reinvest(indexed address,uint256,uint256)
           handler: handleReinvest
@@ -175,6 +183,8 @@ dataSources:
       abis:
         - name: UniswapGoblin
           file: ./abis/UniswapGoblin.json
+        - name: StakingRewards
+          file: ./abis/StakingRewards.json
       eventHandlers:
         - event: Reinvest(indexed address,uint256,uint256)
           handler: handleReinvest

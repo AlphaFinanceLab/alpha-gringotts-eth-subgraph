@@ -123,7 +123,7 @@ export function handleTransfer(event: Transfer): void {
   updateBankSummary(event.address);
 }
 
-function updateBankSummary(bankAddress :Address): void {
+function updateBankSummary(bankAddress: Address): void {
   let summary = BankSummary.load("Gringotts")
   if (summary == null) {
     summary = new BankSummary("Gringotts")
@@ -133,10 +133,11 @@ function updateBankSummary(bankAddress :Address): void {
   summary.totalETH = bank.totalETH()
   summary.totalDebtShare = bank.glbDebtShare()
   summary.totalDebtValue = bank.glbDebtVal()
+  summary.totalPosition = bank.nextPositionID().minus(BigInt.fromI32(1))
   summary.save()
 }
 
-function updatePosition(bankAddress :Address, positionId: BigInt): void {
+function updatePosition(bankAddress: Address, positionId: BigInt): void {
   let id = positionId.toHexString()
   let position = Position.load(id)
   if (position == null) {

@@ -175,6 +175,15 @@ export class BankSummary extends Entity {
   set totalDebtValue(value: BigInt) {
     this.set("totalDebtValue", Value.fromBigInt(value));
   }
+
+  get totalPosition(): BigInt {
+    let value = this.get("totalPosition");
+    return value.toBigInt();
+  }
+
+  set totalPosition(value: BigInt) {
+    this.set("totalPosition", Value.fromBigInt(value));
+  }
 }
 
 export class Position extends Entity {
@@ -308,5 +317,112 @@ export class Reinvest extends Entity {
 
   set goblin(value: Bytes) {
     this.set("goblin", Value.fromBytes(value));
+  }
+}
+
+export class GoblinPosition extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save GoblinPosition entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save GoblinPosition entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("GoblinPosition", id.toString(), this);
+  }
+
+  static load(id: string): GoblinPosition | null {
+    return store.get("GoblinPosition", id) as GoblinPosition | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get goblin(): Bytes {
+    let value = this.get("goblin");
+    return value.toBytes();
+  }
+
+  set goblin(value: Bytes) {
+    this.set("goblin", Value.fromBytes(value));
+  }
+
+  get position(): BigInt {
+    let value = this.get("position");
+    return value.toBigInt();
+  }
+
+  set position(value: BigInt) {
+    this.set("position", Value.fromBigInt(value));
+  }
+
+  get share(): BigInt {
+    let value = this.get("share");
+    return value.toBigInt();
+  }
+
+  set share(value: BigInt) {
+    this.set("share", Value.fromBigInt(value));
+  }
+}
+
+export class GoblinSummary extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save GoblinSummary entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save GoblinSummary entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("GoblinSummary", id.toString(), this);
+  }
+
+  static load(id: string): GoblinSummary | null {
+    return store.get("GoblinSummary", id) as GoblinSummary | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get totalShare(): BigInt {
+    let value = this.get("totalShare");
+    return value.toBigInt();
+  }
+
+  set totalShare(value: BigInt) {
+    this.set("totalShare", Value.fromBigInt(value));
+  }
+
+  get totalLPToken(): BigInt {
+    let value = this.get("totalLPToken");
+    return value.toBigInt();
+  }
+
+  set totalLPToken(value: BigInt) {
+    this.set("totalLPToken", Value.fromBigInt(value));
   }
 }

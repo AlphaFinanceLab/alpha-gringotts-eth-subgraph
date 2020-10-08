@@ -16,6 +16,7 @@ type BankSummary @entity {
   totalETH: BigInt!
   totalDebtShare: BigInt!
   totalDebtValue: BigInt!
+  totalPosition: BigInt!
 }
 
 type Position @entity {
@@ -32,4 +33,17 @@ type Reinvest @entity {
   bounty: BigInt!
   blockTime: BigInt!
   goblin: Bytes!
+}
+
+type GoblinPosition @entity {
+  id: ID!
+  goblin: Bytes!
+  position: BigInt!
+  share: BigInt! # uint256
+}
+
+type GoblinSummary @entity {
+  id: ID!
+  totalShare: BigInt!
+  totalLPToken: BigInt!
 }
