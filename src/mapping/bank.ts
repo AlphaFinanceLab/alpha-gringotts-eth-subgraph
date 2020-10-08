@@ -8,8 +8,8 @@ import {
   OwnershipTransferred,
   RemoveDebt,
   Transfer
-} from "../generated/Bank/Bank"
-import { ibETHTransfer, Balance, BankSummary, Position } from "../generated/schema"
+} from "../../generated/Bank/Bank"
+import { ibETHTransfer, Balance, BankSummary, Position } from "../../generated/schema"
 
 /* export function handleAddDebt(event: AddDebt): void {
   // Entities can be loaded from the store using a string ID; this ID
