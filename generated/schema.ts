@@ -426,3 +426,159 @@ export class GoblinSummary extends Entity {
     this.set("totalLPToken", Value.fromBigInt(value));
   }
 }
+
+export class AlphaGlobal extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save AlphaGlobal entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save AlphaGlobal entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("AlphaGlobal", id.toString(), this);
+  }
+
+  static load(id: string): AlphaGlobal | null {
+    return store.get("AlphaGlobal", id) as AlphaGlobal | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get totalShare(): BigInt {
+    let value = this.get("totalShare");
+    return value.toBigInt();
+  }
+
+  set totalShare(value: BigInt) {
+    this.set("totalShare", Value.fromBigInt(value));
+  }
+
+  get multiplier(): BigInt {
+    let value = this.get("multiplier");
+    return value.toBigInt();
+  }
+
+  set multiplier(value: BigInt) {
+    this.set("multiplier", Value.fromBigInt(value));
+  }
+
+  get latestBlockTime(): BigInt {
+    let value = this.get("latestBlockTime");
+    return value.toBigInt();
+  }
+
+  set latestBlockTime(value: BigInt) {
+    this.set("latestBlockTime", Value.fromBigInt(value));
+  }
+}
+
+export class UserBorrower extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save UserBorrower entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save UserBorrower entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("UserBorrower", id.toString(), this);
+  }
+
+  static load(id: string): UserBorrower | null {
+    return store.get("UserBorrower", id) as UserBorrower | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get latestAlphaMultiplier(): BigInt {
+    let value = this.get("latestAlphaMultiplier");
+    return value.toBigInt();
+  }
+
+  set latestAlphaMultiplier(value: BigInt) {
+    this.set("latestAlphaMultiplier", Value.fromBigInt(value));
+  }
+
+  get debtShare(): BigInt {
+    let value = this.get("debtShare");
+    return value.toBigInt();
+  }
+
+  set debtShare(value: BigInt) {
+    this.set("debtShare", Value.fromBigInt(value));
+  }
+}
+
+export class UserLender extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save UserLender entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save UserLender entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("UserLender", id.toString(), this);
+  }
+
+  static load(id: string): UserLender | null {
+    return store.get("UserLender", id) as UserLender | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get latestAlphaMultiplier(): BigInt {
+    let value = this.get("latestAlphaMultiplier");
+    return value.toBigInt();
+  }
+
+  set latestAlphaMultiplier(value: BigInt) {
+    this.set("latestAlphaMultiplier", Value.fromBigInt(value));
+  }
+
+  get ibETH(): BigInt {
+    let value = this.get("ibETH");
+    return value.toBigInt();
+  }
+
+  set ibETH(value: BigInt) {
+    this.set("ibETH", Value.fromBigInt(value));
+  }
+}

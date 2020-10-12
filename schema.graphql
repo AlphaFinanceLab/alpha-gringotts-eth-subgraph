@@ -47,3 +47,22 @@ type GoblinSummary @entity {
   totalShare: BigInt!
   totalLPToken: BigInt!
 }
+
+type AlphaGlobal @entity {
+  id: ID!
+  totalShare: BigInt!
+  multiplier: BigInt!
+  latestBlockTime: BigInt!
+}
+
+type UserBorrower @entity {
+  id: ID!
+  latestAlphaMultiplier: BigInt!
+  debtShare: BigInt!
+}
+
+type UserLender @entity {
+  id: ID!
+  latestAlphaMultiplier: BigInt!
+  ibETH: BigInt!
+}
