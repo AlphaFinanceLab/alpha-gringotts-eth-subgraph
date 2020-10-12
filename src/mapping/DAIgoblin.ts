@@ -46,7 +46,7 @@ export function handleRemoveShare(event: RemoveShare): void {
     position.lpShare = BigInt.fromI32(0)
   }
   position.lpShare = position.lpShare.minus(event.params.share)
-  position. 
+  position.save()
   updateGoblinSummary(event.address)
 }
 
