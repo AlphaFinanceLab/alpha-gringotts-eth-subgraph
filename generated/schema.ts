@@ -368,13 +368,13 @@ export class GoblinPosition extends Entity {
     this.set("position", Value.fromBigInt(value));
   }
 
-  get share(): BigInt {
-    let value = this.get("share");
+  get lpShare(): BigInt {
+    let value = this.get("lpShare");
     return value.toBigInt();
   }
 
-  set share(value: BigInt) {
-    this.set("share", Value.fromBigInt(value));
+  set lpShare(value: BigInt) {
+    this.set("lpShare", Value.fromBigInt(value));
   }
 }
 

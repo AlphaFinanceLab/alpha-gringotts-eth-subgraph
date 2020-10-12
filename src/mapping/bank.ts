@@ -138,7 +138,7 @@ function updateBankSummary(bankAddress: Address): void {
 }
 
 function updatePosition(bankAddress: Address, positionId: BigInt): void {
-  let id = positionId.toHexString()
+  let id = positionId.toString()
   let position = Position.load(id)
   if (position == null) {
     position = new Position(id)

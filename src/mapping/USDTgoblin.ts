@@ -29,9 +29,9 @@ export function handleAddShare(event: AddShare): void {
     position = new GoblinPosition(goblinPositionId)
     position.goblin = event.address
     position.position = event.params.id
-    position.share = BigInt.fromI32(0)
+    position.lpShare = BigInt.fromI32(0)
   }
-  position.share = position.share.plus(event.params.share)
+  position.lpShare = position.lpShare.plus(event.params.share)
   position.save()
   updateGoblinSummary(event.address)
 }
@@ -43,9 +43,9 @@ export function handleRemoveShare(event: RemoveShare): void {
     position = new GoblinPosition(goblinPositionId)
     position.goblin = event.address
     position.position = event.params.id
-    position.share = BigInt.fromI32(0)
+    position.lpShare = BigInt.fromI32(0)
   }
-  position.share = position.share.minus(event.params.share)
+  position.lpShare = position.lpShare.minus(event.params.share)
   position.save()
   updateGoblinSummary(event.address)
 }

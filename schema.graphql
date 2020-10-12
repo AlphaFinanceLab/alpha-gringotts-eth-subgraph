@@ -39,7 +39,7 @@ type GoblinPosition @entity {
   id: ID!
   goblin: Bytes!
   position: BigInt!
-  share: BigInt! # uint256
+  lpShare: BigInt! # uint256
 }
 
 type GoblinSummary @entity {
