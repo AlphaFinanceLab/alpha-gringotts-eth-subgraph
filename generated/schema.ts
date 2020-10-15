@@ -515,6 +515,15 @@ export class UserBorrower extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get accAlpha(): BigInt {
+    let value = this.get("accAlpha");
+    return value.toBigInt();
+  }
+
+  set accAlpha(value: BigInt) {
+    this.set("accAlpha", Value.fromBigInt(value));
+  }
+
   get latestAlphaMultiplier(): BigInt {
     let value = this.get("latestAlphaMultiplier");
     return value.toBigInt();
@@ -531,6 +540,15 @@ export class UserBorrower extends Entity {
 
   set debtShare(value: BigInt) {
     this.set("debtShare", Value.fromBigInt(value));
+  }
+
+  get blockTime(): BigInt {
+    let value = this.get("blockTime");
+    return value.toBigInt();
+  }
+
+  set blockTime(value: BigInt) {
+    this.set("blockTime", Value.fromBigInt(value));
   }
 }
 
@@ -564,6 +582,15 @@ export class UserLender extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get accAlpha(): BigInt {
+    let value = this.get("accAlpha");
+    return value.toBigInt();
+  }
+
+  set accAlpha(value: BigInt) {
+    this.set("accAlpha", Value.fromBigInt(value));
+  }
+
   get latestAlphaMultiplier(): BigInt {
     let value = this.get("latestAlphaMultiplier");
     return value.toBigInt();
@@ -580,5 +607,14 @@ export class UserLender extends Entity {
 
   set ibETH(value: BigInt) {
     this.set("ibETH", Value.fromBigInt(value));
+  }
+
+  get blockTime(): BigInt {
+    let value = this.get("blockTime");
+    return value.toBigInt();
+  }
+
+  set blockTime(value: BigInt) {
+    this.set("blockTime", Value.fromBigInt(value));
   }
 }

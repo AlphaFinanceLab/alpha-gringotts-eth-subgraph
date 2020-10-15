@@ -57,12 +57,16 @@ type AlphaGlobal @entity {
 
 type UserBorrower @entity {
   id: ID!
+  accAlpha: BigInt!
   latestAlphaMultiplier: BigInt!
   debtShare: BigInt!
+  blockTime: BigInt!
 }
 
 type UserLender @entity {
   id: ID!
+  accAlpha: BigInt!
   latestAlphaMultiplier: BigInt!
   ibETH: BigInt!
+  blockTime: BigInt!
 }

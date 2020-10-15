@@ -4,4 +4,6 @@ export const LENDER_ALPHA_PER_SEC = 1;
 
 export const BORROWER_ALPHA_PER_SEC = 1;
 
-export const START_REWARD_BLOCKTIME = 0
+export const START_REWARD_BLOCKTIME = 0;
+
+export const END_REWARD_BLOCKTIME = 90000000;

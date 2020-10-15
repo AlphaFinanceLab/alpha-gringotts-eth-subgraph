@@ -10,7 +10,12 @@ import {
   Transfer
 } from "../../generated/Bank/Bank"
 import { ibETHTransfer, Balance, BankSummary, Position, AlphaGlobal, UserLender, UserBorrower } from "../../generated/schema";
-import { LENDER_ALPHA_PER_SEC, BORROWER_ALPHA_PER_SEC, START_REWARD_BLOCKTIME } from "../../src/mapping/constant";
+import {
+  LENDER_ALPHA_PER_SEC,
+  BORROWER_ALPHA_PER_SEC,
+  START_REWARD_BLOCKTIME,
+  END_REWARD_BLOCKTIME,
+} from "../../src/mapping/constant";
 import { log } from "@graphprotocol/graph-ts";
 /* export function handleAddDebt(event: AddDebt): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -79,7 +84,7 @@ export function handleAddDebt(event: AddDebt) : void {
     global.totalShare = BigInt.fromI32(0);
     global.latestBlockTime = BigInt.fromI32(0);
   }
-  global.multiplier = global.multiplier.plus(BigInt.fromI32(1));
+
   global.multiplier = global.totalShare.equals(BigInt.fromI32(0))
     ? BigInt.fromI32(0)
     : global.multiplier.plus(
@@ -90,6 +95,7 @@ export function handleAddDebt(event: AddDebt) : void {
           event.block.timestamp
         )
       );
+
   let userDebtShare = updatePosition(event.address, event.params.id);
   let newTotalDebtShare = updateBankSummary(event.address).totalDebtShare;
   global.totalShare = newTotalDebtShare.minus(userDebtShare);
@@ -103,10 +109,10 @@ export function handleAddDebt(event: AddDebt) : void {
     user.debtShare = BigInt.fromI32(0);
     user.latestAlphaMultiplier = BigInt.fromI32(0);
   }
-  if (user.latestAlphaMultiplier.equals(BigInt.fromI32(0)) && event.block.timestamp > BigInt.fromI32(START_REWARD_BLOCKTIME)) {
-    user.latestAlphaMultiplier = global.multiplier;
-  }
+  user.accAlpha = global.multiplier.minus(user.latestAlphaMultiplier).times(user.debtShare);
+  user.latestAlphaMultiplier = global.multiplier;
   user.debtShare = user.debtShare.plus(userDebtShare);
+  user.blockTime = event.block.timestamp;
   user.save()
 }
 
@@ -151,10 +157,11 @@ export function handleRemoveDebt(event: RemoveDebt): void {
     user.debtShare = BigInt.fromI32(0);
     user.latestAlphaMultiplier = BigInt.fromI32(0);
   }
-  if (user.latestAlphaMultiplier.equals(BigInt.fromI32(0)) && event.block.timestamp > BigInt.fromI32(START_REWARD_BLOCKTIME)) {
-    user.latestAlphaMultiplier = global.multiplier;
-  }
+
+  user.accAlpha = global.multiplier.minus(user.latestAlphaMultiplier).times(user.debtShare);
+  user.latestAlphaMultiplier = global.multiplier;
   user.debtShare = user.debtShare.plus(userDebtShare);
+  user.blockTime = event.block.timestamp;
   user.save()
 }
 
@@ -227,12 +234,9 @@ export function handleTransfer(event: Transfer): void {
       user.ibETH = BigInt.fromI32(0);
     }
 
-    if (
-      user.latestAlphaMultiplier.equals(BigInt.fromI32(0)) &&
-      event.block.timestamp > BigInt.fromI32(START_REWARD_BLOCKTIME)
-    ) {
-      user.latestAlphaMultiplier = global.multiplier;
-    }
+    user.accAlpha = global.multiplier.minus(user.latestAlphaMultiplier).times(user.ibETH);
+    user.latestAlphaMultiplier = global.multiplier;
+    user.blockTime = event.block.timestamp;
 
     if (event.params.from.equals(Address.fromString("0x0000000000000000000000000000000000000000"))) {
       // Mint token
@@ -292,10 +296,30 @@ function calculateNewAlphaMultiplier(
   globalTotalShare: BigInt,
   blockTime: BigInt
 ): BigInt {
+  let start = BigInt.fromI32(START_REWARD_BLOCKTIME);
+  let end = BigInt.fromI32(END_REWARD_BLOCKTIME).pow(3);
+  let cappedBlockTime = min(end, max(start, blockTime));
+  let cappedGlobalLatestBlockTime = min(end, max(start, globalLatestedBlockTime));
   return globalTotalShare.equals(BigInt.fromI32(0))
     ? BigInt.fromI32(0)
     : alphaPerSec
-        .times(blockTime.minus(globalLatestedBlockTime))
-        .times(BigInt.fromI32(10).pow(18))
+        .times(cappedBlockTime.minus(cappedGlobalLatestBlockTime))
+        .times(BigInt.fromI32(10).pow(32))
         .div(globalTotalShare);
+}
+
+function min(a: BigInt, b: BigInt): BigInt {
+  if (a.lt(b)) {
+    return a
+  } else {
+    return b
+  }
+}
+
+function max(a: BigInt, b: BigInt): BigInt {
+  if (a.gt(b)) {
+    return a;
+  } else {
+    return b;
+  }
 }
