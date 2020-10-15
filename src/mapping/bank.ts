@@ -11,6 +11,7 @@ import {
 } from "../../generated/Bank/Bank"
 import { ibETHTransfer, Balance, BankSummary, Position, AlphaGlobal, UserLender, UserBorrower } from "../../generated/schema";
 import { LENDER_ALPHA_PER_SEC, BORROWER_ALPHA_PER_SEC, START_REWARD_BLOCKTIME } from "../../src/mapping/constant";
+import { log } from "@graphprotocol/graph-ts";
 /* export function handleAddDebt(event: AddDebt): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
@@ -208,12 +209,24 @@ export function handleTransfer(event: Transfer): void {
         );
 
     // Update user
-    let user = UserLender.load(event.transaction.to.toHexString());
+    let userAddress: Address;
+    if (event.params.from.equals(Address.fromString("0x0000000000000000000000000000000000000000"))) {
+      if (event.params.to !== null) {
+        userAddress = event.params.to as Address;
+      }
+    } else {
+      if (event.params.from !== null) {
+        userAddress = event.params.from as Address;
+      }
+    }
+    
+    let user = UserLender.load(userAddress.toHexString());
     if (user == null) {
-      user = new UserLender(event.transaction.to.toHexString());
+      user = new UserLender(userAddress.toHexString());
       user.latestAlphaMultiplier = BigInt.fromI32(0);
       user.ibETH = BigInt.fromI32(0);
     }
+
     if (
       user.latestAlphaMultiplier.equals(BigInt.fromI32(0)) &&
       event.block.timestamp > BigInt.fromI32(START_REWARD_BLOCKTIME)
