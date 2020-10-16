@@ -50,6 +50,7 @@ type GoblinSummary @entity {
 
 type AlphaGlobal @entity {
   id: ID!
+  totalAccAlpha: BigInt!
   totalShare: BigInt!
   multiplier: BigInt!
   latestBlockTime: BigInt!

@@ -457,6 +457,15 @@ export class AlphaGlobal extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get totalAccAlpha(): BigInt {
+    let value = this.get("totalAccAlpha");
+    return value.toBigInt();
+  }
+
+  set totalAccAlpha(value: BigInt) {
+    this.set("totalAccAlpha", Value.fromBigInt(value));
+  }
+
   get totalShare(): BigInt {
     let value = this.get("totalShare");
     return value.toBigInt();
