@@ -107,9 +107,11 @@ export function handleAddDebt(event: AddDebt) : void {
     user = new UserBorrower(event.transaction.from.toHexString());
     user.debtShare = BigInt.fromI32(0);
     user.latestAlphaMultiplier = BigInt.fromI32(0);
+    user.accAlpha = BigInt.fromI32(0);
   }
-  user.accAlpha = global.multiplier.minus(user.latestAlphaMultiplier).times(user.debtShare);
-  global.totalAccAlpha = global.totalAccAlpha.plus(user.accAlpha);
+  let pendingAlpha = global.multiplier.minus(user.latestAlphaMultiplier).times(user.debtShare);
+  user.accAlpha = user.accAlpha.plus(pendingAlpha);
+  global.totalAccAlpha = global.totalAccAlpha.plus(pendingAlpha);
   user.latestAlphaMultiplier = global.multiplier;
   user.debtShare = user.debtShare.plus(userDebtShare);
   user.blockTime = event.block.timestamp;
@@ -162,10 +164,11 @@ export function handleRemoveDebt(event: RemoveDebt): void {
     user = new UserBorrower(event.transaction.from.toHexString());
     user.debtShare = BigInt.fromI32(0);
     user.latestAlphaMultiplier = BigInt.fromI32(0);
+    user.accAlpha = BigInt.fromI32(0);
   }
-
-  user.accAlpha = global.multiplier.minus(user.latestAlphaMultiplier).times(user.debtShare);
-  global.totalAccAlpha = global.totalAccAlpha.plus(user.accAlpha);
+  let pendingAlpha = global.multiplier.minus(user.latestAlphaMultiplier).times(user.debtShare);
+  user.accAlpha = user.accAlpha.plus(pendingAlpha);
+  global.totalAccAlpha = global.totalAccAlpha.plus(pendingAlpha);
   user.latestAlphaMultiplier = global.multiplier;
   user.debtShare = user.debtShare.plus(userDebtShare);
   user.blockTime = event.block.timestamp;
@@ -241,9 +244,11 @@ export function handleTransfer(event: Transfer): void {
       user = new UserLender(userAddress.toHexString());
       user.latestAlphaMultiplier = BigInt.fromI32(0);
       user.ibETH = BigInt.fromI32(0);
+      user.accAlpha = BigInt.fromI32(0);
     }
 
-    user.accAlpha = global.multiplier.minus(user.latestAlphaMultiplier).times(user.ibETH);
+    let pendingAlpha = global.multiplier.minus(user.latestAlphaMultiplier).times(user.ibETH);
+    user.accAlpha = user.accAlpha.plus(pendingAlpha);
     user.latestAlphaMultiplier = global.multiplier;
     user.blockTime = event.block.timestamp;
 
@@ -256,7 +261,7 @@ export function handleTransfer(event: Transfer): void {
       global.totalShare = global.totalShare.minus(transfer.value);
       user.ibETH = user.ibETH.minus(transfer.value);
     }
-    global.totalAccAlpha = global.totalAccAlpha.plus(user.accAlpha);
+    global.totalAccAlpha = global.totalAccAlpha.plus(pendingAlpha);
     global.latestBlockTime = event.block.timestamp;
     global.save();
     user.save();
