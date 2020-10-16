@@ -77,6 +77,8 @@ import { log } from "@graphprotocol/graph-ts";
 } */
 
 export function handleAddDebt(event: AddDebt) : void {
+  updatePosition(event.address, event.params.id);
+
   let global = AlphaGlobal.load("borrower");
   if (global == null) {
     global = new AlphaGlobal("borrower");
@@ -96,9 +98,7 @@ export function handleAddDebt(event: AddDebt) : void {
         )
       );
 
-  let userDebtShare = updatePosition(event.address, event.params.id);
-  let newTotalDebtShare = updateBankSummary(event.address).totalDebtShare;
-  global.totalShare = newTotalDebtShare.minus(userDebtShare);
+  global.totalShare = updateBankSummary(event.address).totalDebtShare;
   global.latestBlockTime = event.block.timestamp;
 
   // Update user
@@ -113,7 +113,7 @@ export function handleAddDebt(event: AddDebt) : void {
   user.accAlpha = user.accAlpha.plus(pendingAlpha);
   global.totalAccAlpha = global.totalAccAlpha.plus(pendingAlpha);
   user.latestAlphaMultiplier = global.multiplier;
-  user.debtShare = user.debtShare.plus(userDebtShare);
+  user.debtShare = user.debtShare.plus(event.params.debtShare);
   user.blockTime = event.block.timestamp;
   global.save();
   user.save()
@@ -134,6 +134,7 @@ export function handleKill(event: Kill): void {
 export function handleOwnershipTransferred(event: OwnershipTransferred): void { }
 
 export function handleRemoveDebt(event: RemoveDebt): void {
+  updatePosition(event.address, event.params.id);
   let global = AlphaGlobal.load("borrower");
   if (global == null) {
     global = new AlphaGlobal("borrower");
@@ -153,9 +154,7 @@ export function handleRemoveDebt(event: RemoveDebt): void {
           event.block.timestamp
         )
       );
-  let userDebtShare = updatePosition(event.address, event.params.id);
-  let newTotalDebtShare = updateBankSummary(event.address).totalDebtShare;
-  global.totalShare = newTotalDebtShare.plus(userDebtShare);
+  global.totalShare = updateBankSummary(event.address).totalDebtShare;
   global.latestBlockTime = event.block.timestamp;
 
   // Update user
@@ -170,7 +169,7 @@ export function handleRemoveDebt(event: RemoveDebt): void {
   user.accAlpha = user.accAlpha.plus(pendingAlpha);
   global.totalAccAlpha = global.totalAccAlpha.plus(pendingAlpha);
   user.latestAlphaMultiplier = global.multiplier;
-  user.debtShare = user.debtShare.plus(userDebtShare);
+  user.debtShare = user.debtShare.minus(event.params.debtShare);
   user.blockTime = event.block.timestamp;
   global.save();
   user.save()
@@ -302,7 +301,6 @@ function updatePosition(bankAddress: Address, positionId: BigInt): BigInt {
   position.owner = result.value1
   position.debtShare = result.value2
   position.save()
-  return position.debtShare;
 }
 
 function calculateNewAlphaMultiplier(
