@@ -288,7 +288,7 @@ function updateBankSummary(bankAddress: Address): BankSummary {
   return summary as BankSummary;
 }
 
-function updatePosition(bankAddress: Address, positionId: BigInt): BigInt {
+function updatePosition(bankAddress: Address, positionId: BigInt): void {
   let id = positionId.toString()
   let position = Position.load(id)
   if (position == null) {
