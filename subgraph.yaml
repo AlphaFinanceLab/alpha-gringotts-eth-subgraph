@@ -257,3 +257,65 @@ dataSources:
         - event: Liquidate(indexed uint256,uint256)
           handler: handleLiquidate
       file: ./src/mapping/SUSHIGoblin.ts
+  - kind: ethereum/contract
+    name: PICKLEGoblin
+    network: mainnet
+    source:
+      address: "0xA8854Bd26ee44Ad3c78792d68564b96ad0a45245"
+      abi: SushiswapGoblin
+      startBlock: 11184227 
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: SushiswapGoblin
+          file: ./abis/SushiswapGoblin.json
+        - name: MasterChefPickle
+          file: ./abis/MasterChefPickle.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/PICKLEGoblin.ts
+  - kind: ethereum/contract
+    name: KP3RGoblin
+    network: mainnet
+    source:
+      address: "0xcbb95b7708b1b543ecb82b2d58db1711f88d265c"
+      abi: UniswapGoblin
+      startBlock: 11183941
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: UniswapGoblin
+          file: ./abis/UniswapGoblin.json
+        - name: StakingRewards
+          file: ./abis/StakingRewards.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/KP3RGoblin.ts
