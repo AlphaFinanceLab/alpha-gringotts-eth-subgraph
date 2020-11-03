@@ -71,3 +71,10 @@ type UserLender @entity {
   ibETH: BigInt!
   blockTime: BigInt!
 }
+
+type Claimed @entity {
+  id: ID!
+  index: BigInt!
+  account: Bytes!
+  amount: BigInt!
+}

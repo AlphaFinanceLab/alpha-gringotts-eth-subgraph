@@ -257,3 +257,23 @@ dataSources:
         - event: Liquidate(indexed uint256,uint256)
           handler: handleLiquidate
       file: ./src/mapping/SUSHIGoblin.ts
+  - kind: ethereum/contract
+    name: MerkleDistributor
+    network: kovan # TODO: Update mainnet contract
+    source:
+      address: "0x7065512D3B295A19C1Ca4003ae0C887764ddD2d2"
+      abi: IMerkleDistributor
+      startBlock: 21866151 
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Claimed
+      abis:
+        - name: IMerkleDistributor
+          file: ./abis/IMerkleDistributor.json
+      eventHandlers:
+        - event: Claimed(uint256,address,uint256)
+          handler: handleClaimed
+      file: ./src/mapping/MerkleDistributor.ts
