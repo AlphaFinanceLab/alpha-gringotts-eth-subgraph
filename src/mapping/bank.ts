@@ -102,9 +102,11 @@ export function handleAddDebt(event: AddDebt) : void {
   global.latestBlockTime = event.block.timestamp;
 
   // Update user
-  let user = UserBorrower.load(event.transaction.from.toHexString());
+  let position = Position.load(event.params.id.toString());
+  let owner = position.owner.toHexString();
+  let user = UserBorrower.load(owner);
   if (user == null) {
-    user = new UserBorrower(event.transaction.from.toHexString());
+    user = new UserBorrower(owner);
     user.debtShare = BigInt.fromI32(0);
     user.latestAlphaMultiplier = BigInt.fromI32(0);
     user.accAlpha = BigInt.fromI32(0);
@@ -143,7 +145,6 @@ export function handleRemoveDebt(event: RemoveDebt): void {
     global.totalShare = BigInt.fromI32(0);
     global.latestBlockTime = BigInt.fromI32(0);
   }
-  // global.multiplier = global.multiplier.plus(BigInt.fromI32(1));
   global.multiplier = global.totalShare.equals(BigInt.fromI32(0))
     ? BigInt.fromI32(0)
     : global.multiplier.plus(
@@ -158,9 +159,11 @@ export function handleRemoveDebt(event: RemoveDebt): void {
   global.latestBlockTime = event.block.timestamp;
 
   // Update user
-  let user = UserBorrower.load(event.transaction.from.toHexString());
+  let position = Position.load(event.params.id.toString());
+  let owner = position.owner.toHexString();
+  let user = UserBorrower.load(owner);
   if (user == null) {
-    user = new UserBorrower(event.transaction.from.toHexString());
+    user = new UserBorrower(owner);
     user.debtShare = BigInt.fromI32(0);
     user.latestAlphaMultiplier = BigInt.fromI32(0);
     user.accAlpha = BigInt.fromI32(0);
