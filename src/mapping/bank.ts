@@ -102,9 +102,11 @@ export function handleAddDebt(event: AddDebt) : void {
   global.latestBlockTime = event.block.timestamp;
 
   // Update user
-  let user = UserBorrower.load(event.transaction.from.toHexString());
+  let position = Position.load(event.params.id.toString());
+  let owner = position.owner.toHexString();
+  let user = UserBorrower.load(owner);
   if (user == null) {
-    user = new UserBorrower(event.transaction.from.toHexString());
+    user = new UserBorrower(owner);
     user.debtShare = BigInt.fromI32(0);
     user.latestAlphaMultiplier = BigInt.fromI32(0);
     user.accAlpha = BigInt.fromI32(0);
@@ -143,7 +145,6 @@ export function handleRemoveDebt(event: RemoveDebt): void {
     global.totalShare = BigInt.fromI32(0);
     global.latestBlockTime = BigInt.fromI32(0);
   }
-  // global.multiplier = global.multiplier.plus(BigInt.fromI32(1));
   global.multiplier = global.totalShare.equals(BigInt.fromI32(0))
     ? BigInt.fromI32(0)
     : global.multiplier.plus(
@@ -158,9 +159,11 @@ export function handleRemoveDebt(event: RemoveDebt): void {
   global.latestBlockTime = event.block.timestamp;
 
   // Update user
-  let user = UserBorrower.load(event.transaction.from.toHexString());
+  let position = Position.load(event.params.id.toString());
+  let owner = position.owner.toHexString();
+  let user = UserBorrower.load(owner);
   if (user == null) {
-    user = new UserBorrower(event.transaction.from.toHexString());
+    user = new UserBorrower(owner);
     user.debtShare = BigInt.fromI32(0);
     user.latestAlphaMultiplier = BigInt.fromI32(0);
     user.accAlpha = BigInt.fromI32(0);
@@ -202,42 +205,47 @@ export function handleTransfer(event: Transfer): void {
   recipient.amount = recipient.amount.plus(transfer.value)
   recipient.save()
 
-  // Update Alpha rewards Global
-  if (
-    event.params.from.equals(Address.fromString("0x0000000000000000000000000000000000000000")) ||
-    event.params.to.equals(Address.fromString("0x0000000000000000000000000000000000000000"))
-  ) {
-    let global = AlphaGlobal.load("lender");
-    if (global == null) {
-      global = new AlphaGlobal("lender");
-      global.multiplier = BigInt.fromI32(0);
-      global.totalAccAlpha = BigInt.fromI32(0);
-      global.totalShare = BigInt.fromI32(0);
-      global.latestBlockTime = BigInt.fromI32(0);
+  // Update user
+  let userAddresses: Address[];
+  if (event.params.from.equals(Address.fromString("0x0000000000000000000000000000000000000000"))) {
+    if (event.params.to !== null) {
+      userAddresses.push(event.params.to);
     }
-    global.multiplier = global.totalShare.equals(BigInt.fromI32(0))
-      ? BigInt.fromI32(0)
-      : global.multiplier.plus(
-          calculateNewAlphaMultiplier(
-            BigInt.fromUnsignedBytes(ByteArray.fromHexString(LENDER_ALPHA_PER_SEC) as Bytes),
-            global.latestBlockTime,
-            global.totalShare,
-            event.block.timestamp
-          )
-        );
+  } else if (event.params.to.equals(Address.fromString("0x0000000000000000000000000000000000000000"))) {
+    if (event.params.from !== null) {
+      userAddresses.push(event.params.from);
+    }
+  } else {
+    if (event.params.from !== null) {
+      userAddresses.push(event.params.from);
+    }
+    if (event.params.to !== null) {
+      userAddresses.push(event.params.to);
+    }
+  }
 
-    // Update user
-    let userAddress: Address;
-    if (event.params.from.equals(Address.fromString("0x0000000000000000000000000000000000000000"))) {
-      if (event.params.to !== null) {
-        userAddress = event.params.to as Address;
-      }
-    } else {
-      if (event.params.from !== null) {
-        userAddress = event.params.from as Address;
-      }
-    }
-    
+  // Update Alpha rewards Global
+  let global = AlphaGlobal.load("lender");
+  if (global == null) {
+    global = new AlphaGlobal("lender");
+    global.multiplier = BigInt.fromI32(0);
+    global.totalAccAlpha = BigInt.fromI32(0);
+    global.totalShare = BigInt.fromI32(0);
+    global.latestBlockTime = BigInt.fromI32(0);
+  }
+  global.multiplier = global.totalShare.equals(BigInt.fromI32(0))
+    ? BigInt.fromI32(0)
+    : global.multiplier.plus(
+        calculateNewAlphaMultiplier(
+          BigInt.fromUnsignedBytes(ByteArray.fromHexString(LENDER_ALPHA_PER_SEC) as Bytes),
+          global.latestBlockTime,
+          global.totalShare,
+          event.block.timestamp
+        )
+      );
+
+  for (let index = 0; index < userAddresses.length; index++) {
+    let userAddress = userAddresses[index];
     let user = UserLender.load(userAddress.toHexString());
     if (user == null) {
       user = new UserLender(userAddress.toHexString());
@@ -251,14 +259,24 @@ export function handleTransfer(event: Transfer): void {
     user.latestAlphaMultiplier = global.multiplier;
     user.blockTime = event.block.timestamp;
 
-    if (event.params.from.equals(Address.fromString("0x0000000000000000000000000000000000000000"))) {
-      // Mint token
+    if (
+      event.params.from.equals(Address.fromString("0x0000000000000000000000000000000000000000")) && // mint event
+      event.params.to.equals(userAddress)
+    ) {
       global.totalShare = global.totalShare.plus(transfer.value);
       user.ibETH = user.ibETH.plus(transfer.value);
-    } else {
-      // Burn Token
+    } else if (
+      event.params.from.equals(userAddress) &&
+      event.params.to.equals(Address.fromString("0x0000000000000000000000000000000000000000")) // burn event
+    ) {
       global.totalShare = global.totalShare.minus(transfer.value);
       user.ibETH = user.ibETH.minus(transfer.value);
+    } else { // transfer event
+      if (event.params.to.equals(userAddress)) {
+        user.ibETH = user.ibETH.plus(transfer.value);
+      } else if (event.params.from.equals(userAddress)) {
+        user.ibETH = user.ibETH.minus(transfer.value);
+      }
     }
     global.totalAccAlpha = global.totalAccAlpha.plus(pendingAlpha);
     global.latestBlockTime = event.block.timestamp;
