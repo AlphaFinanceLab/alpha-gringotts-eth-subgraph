@@ -328,7 +328,7 @@ function calculateNewAlphaMultiplier(
   blockTime: BigInt
 ): BigInt {
   let start = BigInt.fromI32(START_REWARD_BLOCKTIME);
-  let end = BigInt.fromI32(END_REWARD_BLOCKTIME).pow(3);
+  let end = BigInt.fromI32(END_REWARD_BLOCKTIME);
   let cappedBlockTime = min(end, max(start, blockTime));
   let cappedGlobalLatestBlockTime = min(end, max(start, globalLatestedBlockTime));
   return globalTotalShare.equals(BigInt.fromI32(0))
