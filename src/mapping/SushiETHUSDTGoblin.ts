@@ -60,7 +60,7 @@ function updateGoblinSummary(goblinAddress: Address): void {
   let goblin = SushiswapGoblin.bind(goblinAddress);
   let masterChef = MasterChef.bind(goblin.masterChef());
   summary.totalShare = goblin.totalShare();
-  let poolID = BigInt.fromI32(12);
+  let poolID = BigInt.fromI32(0);
   let result = masterChef.userInfo(poolID, goblinAddress);
   summary.totalLPToken = result.value0; // lpToken amount
   summary.save();
