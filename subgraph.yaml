@@ -567,3 +567,127 @@ dataSources:
         - event: Liquidate(indexed uint256,uint256)
           handler: handleLiquidate
       file: ./src/mapping/MTAGoblin.ts
+  - kind: ethereum/contract
+    name: SushiETHUSDTGoblin
+    network: mainnet
+    source:
+      address: "0xd902A3BEdEbaD8bEAD116E8596497cf7d9f45dA2"
+      abi: SushiswapGoblin
+      startBlock: 11241281
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: SushiswapGoblin
+          file: ./abis/SushiswapGoblin.json
+        - name: MasterChef
+          file: ./abis/MasterChef.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/SushiETHUSDTGoblin.ts
+  - kind: ethereum/contract
+    name: SushiETHUSDCGoblin
+    network: mainnet
+    source:
+      address: "0xf134fDD0BBCE951e963D5BC5b0ffe445C9B6c5C6"
+      abi: SushiswapGoblin
+      startBlock: 11241289
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: SushiswapGoblin
+          file: ./abis/SushiswapGoblin.json
+        - name: MasterChef
+          file: ./abis/MasterChef.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/SushiETHUSDCGoblin.ts
+  - kind: ethereum/contract
+    name: SushiETHDAIGoblin
+    network: mainnet
+    source:
+      address: "0xd6419FD982a7651A12a757Ca7cD96b969D180330"
+      abi: SushiswapGoblin
+      startBlock: 11241289
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: SushiswapGoblin
+          file: ./abis/SushiswapGoblin.json
+        - name: MasterChef
+          file: ./abis/MasterChef.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/SushiETHDAIGoblin.ts
+  - kind: ethereum/contract
+    name: SushiETHWBTCGoblin
+    network: mainnet
+    source:
+      address: "0x54a2C35D689F4314FA70DD018eA0a84C74506925"
+      abi: SushiswapGoblin
+      startBlock: 11241290
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: SushiswapGoblin
+          file: ./abis/SushiswapGoblin.json
+        - name: MasterChef
+          file: ./abis/MasterChef.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/SushiETHWBTCGoblin.ts
