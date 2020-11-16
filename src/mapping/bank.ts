@@ -295,6 +295,7 @@ function updateBankSummary(bankAddress: Address): BankSummary {
     summary.totalDebtShare = BigInt.fromI32(0);
     summary.totalDebtValue = BigInt.fromI32(0);
     summary.totalPosition = BigInt.fromI32(0);
+    summary.reservePool = BigInt.fromI32(0);
   }
   let bank = Bank.bind(bankAddress);
   summary.ibETHSupply = bank.totalSupply()
@@ -302,6 +303,7 @@ function updateBankSummary(bankAddress: Address): BankSummary {
   summary.totalDebtShare = bank.glbDebtShare()
   summary.totalDebtValue = bank.glbDebtVal()
   summary.totalPosition = bank.nextPositionID().minus(BigInt.fromI32(1))
+  summary.reservePool = bank.reservePool()
   summary.save()
   return summary as BankSummary;
 }

@@ -17,6 +17,7 @@ type BankSummary @entity {
   totalDebtShare: BigInt!
   totalDebtValue: BigInt!
   totalPosition: BigInt!
+  reservePool: BigInt!
 }
 
 type Position @entity {

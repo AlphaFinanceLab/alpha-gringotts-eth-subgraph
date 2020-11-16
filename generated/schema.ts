@@ -184,6 +184,15 @@ export class BankSummary extends Entity {
   set totalPosition(value: BigInt) {
     this.set("totalPosition", Value.fromBigInt(value));
   }
+
+  get reservePool(): BigInt {
+    let value = this.get("reservePool");
+    return value.toBigInt();
+  }
+
+  set reservePool(value: BigInt) {
+    this.set("reservePool", Value.fromBigInt(value));
+  }
 }
 
 export class Position extends Entity {
