@@ -691,3 +691,65 @@ dataSources:
         - event: Liquidate(indexed uint256,uint256)
           handler: handleLiquidate
       file: ./src/mapping/SushiETHWBTCGoblin.ts
+  - kind: ethereum/contract
+    name: SushiETHLINKGoblin
+    network: mainnet
+    source:
+      address: "0xCfbD9eEAc76798571eD96ED60cA34df35F29Ea8D"
+      abi: SushiswapGoblin
+      startBlock: 11274755
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: SushiswapGoblin
+          file: ./abis/SushiswapGoblin.json
+        - name: MasterChef
+          file: ./abis/MasterChef.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/SushiETHLINKGoblin.ts
+  - kind: ethereum/contract
+    name: SushiETHBANDGoblin
+    network: mainnet
+    source:
+      address: "0xA7120893283cC2Aba8155D6b9887bF228a8a86d2"
+      abi: SushiswapGoblin
+      startBlock: 11274755
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: SushiswapGoblin
+          file: ./abis/SushiswapGoblin.json
+        - name: MasterChef
+          file: ./abis/MasterChef.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/SushiETHBANDGoblin.ts
