@@ -636,3 +636,219 @@ export class UserLender extends Entity {
     this.set("blockTime", Value.fromBigInt(value));
   }
 }
+
+export class MintIbETHAlphaLP extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save MintIbETHAlphaLP entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save MintIbETHAlphaLP entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("MintIbETHAlphaLP", id.toString(), this);
+  }
+
+  static load(id: string): MintIbETHAlphaLP | null {
+    return store.get("MintIbETHAlphaLP", id) as MintIbETHAlphaLP | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get user(): Bytes {
+    let value = this.get("user");
+    return value.toBytes();
+  }
+
+  set user(value: Bytes) {
+    this.set("user", Value.fromBytes(value));
+  }
+
+  get sender(): Bytes {
+    let value = this.get("sender");
+    return value.toBytes();
+  }
+
+  set sender(value: Bytes) {
+    this.set("sender", Value.fromBytes(value));
+  }
+
+  get amount0(): BigInt {
+    let value = this.get("amount0");
+    return value.toBigInt();
+  }
+
+  set amount0(value: BigInt) {
+    this.set("amount0", Value.fromBigInt(value));
+  }
+
+  get amount1(): BigInt {
+    let value = this.get("amount1");
+    return value.toBigInt();
+  }
+
+  set amount1(value: BigInt) {
+    this.set("amount1", Value.fromBigInt(value));
+  }
+}
+
+export class BurnIbETHAlphaLP extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save BurnIbETHAlphaLP entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save BurnIbETHAlphaLP entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("BurnIbETHAlphaLP", id.toString(), this);
+  }
+
+  static load(id: string): BurnIbETHAlphaLP | null {
+    return store.get("BurnIbETHAlphaLP", id) as BurnIbETHAlphaLP | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get user(): Bytes {
+    let value = this.get("user");
+    return value.toBytes();
+  }
+
+  set user(value: Bytes) {
+    this.set("user", Value.fromBytes(value));
+  }
+
+  get sender(): Bytes {
+    let value = this.get("sender");
+    return value.toBytes();
+  }
+
+  set sender(value: Bytes) {
+    this.set("sender", Value.fromBytes(value));
+  }
+
+  get amount0(): BigInt {
+    let value = this.get("amount0");
+    return value.toBigInt();
+  }
+
+  set amount0(value: BigInt) {
+    this.set("amount0", Value.fromBigInt(value));
+  }
+
+  get amount1(): BigInt {
+    let value = this.get("amount1");
+    return value.toBigInt();
+  }
+
+  set amount1(value: BigInt) {
+    this.set("amount1", Value.fromBigInt(value));
+  }
+
+  get to(): Bytes {
+    let value = this.get("to");
+    return value.toBytes();
+  }
+
+  set to(value: Bytes) {
+    this.set("to", Value.fromBytes(value));
+  }
+}
+
+export class UserIbETHAlphaLiquidity extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id !== null,
+      "Cannot save UserIbETHAlphaLiquidity entity without an ID"
+    );
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save UserIbETHAlphaLiquidity entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("UserIbETHAlphaLiquidity", id.toString(), this);
+  }
+
+  static load(id: string): UserIbETHAlphaLiquidity | null {
+    return store.get(
+      "UserIbETHAlphaLiquidity",
+      id
+    ) as UserIbETHAlphaLiquidity | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get ibETHStarting(): BigInt {
+    let value = this.get("ibETHStarting");
+    return value.toBigInt();
+  }
+
+  set ibETHStarting(value: BigInt) {
+    this.set("ibETHStarting", Value.fromBigInt(value));
+  }
+
+  get alphaStarting(): BigInt {
+    let value = this.get("alphaStarting");
+    return value.toBigInt();
+  }
+
+  set alphaStarting(value: BigInt) {
+    this.set("alphaStarting", Value.fromBigInt(value));
+  }
+
+  get ibETHAccGain(): BigInt {
+    let value = this.get("ibETHAccGain");
+    return value.toBigInt();
+  }
+
+  set ibETHAccGain(value: BigInt) {
+    this.set("ibETHAccGain", Value.fromBigInt(value));
+  }
+
+  get alphaAccGain(): BigInt {
+    let value = this.get("alphaAccGain");
+    return value.toBigInt();
+  }
+
+  set alphaAccGain(value: BigInt) {
+    this.set("alphaAccGain", Value.fromBigInt(value));
+  }
+}
