@@ -72,3 +72,28 @@ type UserLender @entity {
   ibETH: BigInt!
   blockTime: BigInt!
 }
+
+type MintIbETHAlphaLP @entity {
+  id: ID!
+  user: Bytes!
+  sender: Bytes!
+  amount0: BigInt!
+  amount1: BigInt!
+}
+
+type BurnIbETHAlphaLP @entity {
+  id: ID!
+  user: Bytes!
+  sender: Bytes!
+  amount0: BigInt!
+  amount1: BigInt!
+  to: Bytes!
+}
+
+type UserIbETHAlphaLiquidity @entity {
+  id: ID!
+  ibETHStarting: BigInt!
+  alphaStarting: BigInt!
+  ibETHAccGain: BigInt!
+  alphaAccGain: BigInt!
+}
