@@ -78,7 +78,10 @@ import { log } from "@graphprotocol/graph-ts";
 
 export function handleAddDebt(event: AddDebt) : void {
   updatePosition(event.address, event.params.id);
-
+  let end = BigInt.fromI32(END_REWARD_BLOCKTIME);
+  if (event.block.timestamp.gt(end)) {
+    return
+  }
   let global = AlphaGlobal.load("borrower");
   if (global == null) {
     global = new AlphaGlobal("borrower");
@@ -137,6 +140,10 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void { 
 
 export function handleRemoveDebt(event: RemoveDebt): void {
   updatePosition(event.address, event.params.id);
+  let end = BigInt.fromI32(END_REWARD_BLOCKTIME);
+  if (event.block.timestamp.gt(end)) {
+    return
+  }
   let global = AlphaGlobal.load("borrower");
   if (global == null) {
     global = new AlphaGlobal("borrower");
