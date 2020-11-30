@@ -852,3 +852,119 @@ export class UserIbETHAlphaLiquidity extends Entity {
     this.set("alphaAccGain", Value.fromBigInt(value));
   }
 }
+
+export class AlphaTradingGlobal extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save AlphaTradingGlobal entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save AlphaTradingGlobal entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("AlphaTradingGlobal", id.toString(), this);
+  }
+
+  static load(id: string): AlphaTradingGlobal | null {
+    return store.get("AlphaTradingGlobal", id) as AlphaTradingGlobal | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get accMultiplier(): BigInt {
+    let value = this.get("accMultiplier");
+    return value.toBigInt();
+  }
+
+  set accMultiplier(value: BigInt) {
+    this.set("accMultiplier", Value.fromBigInt(value));
+  }
+
+  get reserve0(): BigInt {
+    let value = this.get("reserve0");
+    return value.toBigInt();
+  }
+
+  set reserve0(value: BigInt) {
+    this.set("reserve0", Value.fromBigInt(value));
+  }
+
+  get reserve1(): BigInt {
+    let value = this.get("reserve1");
+    return value.toBigInt();
+  }
+
+  set reserve1(value: BigInt) {
+    this.set("reserve1", Value.fromBigInt(value));
+  }
+
+  get latestBlockTime(): BigInt {
+    let value = this.get("latestBlockTime");
+    return value.toBigInt();
+  }
+
+  set latestBlockTime(value: BigInt) {
+    this.set("latestBlockTime", Value.fromBigInt(value));
+  }
+}
+
+export class AlphaTrading extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save AlphaTrading entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save AlphaTrading entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("AlphaTrading", id.toString(), this);
+  }
+
+  static load(id: string): AlphaTrading | null {
+    return store.get("AlphaTrading", id) as AlphaTrading | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get accMultiplier(): BigInt {
+    let value = this.get("accMultiplier");
+    return value.toBigInt();
+  }
+
+  set accMultiplier(value: BigInt) {
+    this.set("accMultiplier", Value.fromBigInt(value));
+  }
+
+  get blockNumber(): BigInt {
+    let value = this.get("blockNumber");
+    return value.toBigInt();
+  }
+
+  set blockNumber(value: BigInt) {
+    this.set("blockNumber", Value.fromBigInt(value));
+  }
+}

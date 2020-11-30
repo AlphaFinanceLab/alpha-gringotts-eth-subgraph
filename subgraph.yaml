@@ -1015,6 +1015,8 @@ dataSources:
       entities:
         - Mint
         - Burn
+        - Swap
+        - Sync
       abis:
         - name: UniswapV2Pair
           file: ./abis/UniswapV2Pair.json
@@ -1023,5 +1025,9 @@ dataSources:
           handler: handleMint
         - event: Burn(indexed address,uint256,uint256,indexed address)
           handler: handleBurn
+        - event: Swap(indexed address,uint256,uint256,uint256,uint256,indexed address)
+          handler: handleSwap
+        - event: Sync(uint112,uint112)
+          handler: handleSync
       file: ./src/mapping/ibETHAlphaUniswap.ts
   

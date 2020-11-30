@@ -97,3 +97,17 @@ type UserIbETHAlphaLiquidity @entity {
   ibETHAccGain: BigInt!
   alphaAccGain: BigInt!
 }
+
+type AlphaTradingGlobal @entity {
+  id: ID!
+  accMultiplier: BigInt!
+  reserve0: BigInt!
+  reserve1: BigInt!
+  latestBlockTime: BigInt!
+}
+
+type AlphaTrading @entity {
+  id: ID!
+  accMultiplier: BigInt!
+  blockNumber: BigInt!
+}
