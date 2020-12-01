@@ -109,5 +109,8 @@ type AlphaTradingGlobal @entity {
 type AlphaTrading @entity {
   id: ID!
   accMultiplier: BigInt!
+  reserve0: BigInt!
+  reserve1: BigInt!
   blockNumber: BigInt!
+  user: Bytes!
 }

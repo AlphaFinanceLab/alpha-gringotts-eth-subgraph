@@ -959,6 +959,24 @@ export class AlphaTrading extends Entity {
     this.set("accMultiplier", Value.fromBigInt(value));
   }
 
+  get reserve0(): BigInt {
+    let value = this.get("reserve0");
+    return value.toBigInt();
+  }
+
+  set reserve0(value: BigInt) {
+    this.set("reserve0", Value.fromBigInt(value));
+  }
+
+  get reserve1(): BigInt {
+    let value = this.get("reserve1");
+    return value.toBigInt();
+  }
+
+  set reserve1(value: BigInt) {
+    this.set("reserve1", Value.fromBigInt(value));
+  }
+
   get blockNumber(): BigInt {
     let value = this.get("blockNumber");
     return value.toBigInt();
@@ -966,5 +984,14 @@ export class AlphaTrading extends Entity {
 
   set blockNumber(value: BigInt) {
     this.set("blockNumber", Value.fromBigInt(value));
+  }
+
+  get user(): Bytes {
+    let value = this.get("user");
+    return value.toBytes();
+  }
+
+  set user(value: Bytes) {
+    this.set("user", Value.fromBytes(value));
   }
 }

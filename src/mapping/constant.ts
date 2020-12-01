@@ -7,3 +7,5 @@ export const BORROWER_ALPHA_PER_SEC = "0x94813bd934956a1500000000000000000000000
 export const START_REWARD_BLOCKTIME = 1606392000;
 
 export const END_REWARD_BLOCKTIME = 1606996800;
+
+export const decimalMultiplier =  BigInt.fromI32(10).pow(8)

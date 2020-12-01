@@ -5,8 +5,8 @@ export function sqrt(x :BigInt): BigInt {
   let y = x
   while (z.lt(y)) {
     y = z
-    // z = (x / z + z) / 2;
-    z = x.div(z.plus(z)).div(BigInt.fromI32(2))
+    // z = (x / z + z) / 2
+    z = x.div(z).plus(z).div(BigInt.fromI32(2))
   }
   return y
 }
