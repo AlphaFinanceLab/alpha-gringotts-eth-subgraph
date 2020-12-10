@@ -630,6 +630,99 @@ dataSources:
           handler: handleLiquidate
       file: ./src/mapping/PERPGoblin.ts
   - kind: ethereum/contract
+    name: COMPGoblin
+    network: mainnet
+    source:
+      address: "0xcc11e2cf6755953eed483ba2b3c433647d0f18dc"
+      abi: UniswapGoblin
+      startBlock: 11419413
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: UniswapGoblin
+          file: ./abis/UniswapGoblin.json
+        - name: StakingRewards
+          file: ./abis/StakingRewards.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/COMPGoblin.ts
+  - kind: ethereum/contract
+    name: CRVGoblin
+    network: mainnet
+    source:
+      address: "0x18712bcb987785d6679134abc7cddee669ec35ca"
+      abi: UniswapGoblin
+      startBlock: 11419415
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: UniswapGoblin
+          file: ./abis/UniswapGoblin.json
+        - name: StakingRewards
+          file: ./abis/StakingRewards.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/CRVGoblin.ts
+  - kind: ethereum/contract
+    name: SUSDGoblin
+    network: mainnet
+    source:
+      address: "0xa4bc927300f174155b95d342488cb2431e7e864e"
+      abi: UniswapGoblin
+      startBlock: 11419415
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: UniswapGoblin
+          file: ./abis/UniswapGoblin.json
+        - name: StakingRewards
+          file: ./abis/StakingRewards.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/SUSDGoblin.ts
+  - kind: ethereum/contract
     name: MTAGoblin
     network: mainnet
     source:
