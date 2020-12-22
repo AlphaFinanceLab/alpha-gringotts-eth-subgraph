@@ -754,6 +754,37 @@ dataSources:
           handler: handleLiquidate
       file: ./src/mapping/OCEANGoblin.ts
   - kind: ethereum/contract
+    name: GRTGoblin
+    network: mainnet
+    source:
+      address: "0xbd95cfef698d4d582e66110475ec7e4e21120e4a"
+      abi: UniswapGoblin
+      startBlock: 11495262
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: UniswapGoblin
+          file: ./abis/UniswapGoblin.json
+        - name: StakingRewards
+          file: ./abis/StakingRewards.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/GRTGoblin.ts
+  - kind: ethereum/contract
     name: MTAGoblin
     network: mainnet
     source:
@@ -1249,6 +1280,37 @@ dataSources:
         - event: Liquidate(indexed uint256,uint256)
           handler: handleLiquidate
       file: ./src/mapping/SushiETHYFIGoblin.ts
+  - kind: ethereum/contract
+    name: SushiETHKP3RGoblin
+    network: mainnet
+    source:
+      address: "0x795d3655d0d7ecbf26dd33b1a7676017bb0ee611"
+      abi: SushiswapGoblin
+      startBlock: 11495217
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Reinvest
+        - AddShare
+        - RemoveShare
+        - Liquidate
+      abis:
+        - name: SushiswapGoblin
+          file: ./abis/SushiswapGoblin.json
+        - name: MasterChef
+          file: ./abis/MasterChef.json
+      eventHandlers:
+        - event: Reinvest(indexed address,uint256,uint256)
+          handler: handleReinvest
+        - event: AddShare(indexed uint256,uint256)
+          handler: handleAddShare
+        - event: RemoveShare(indexed uint256,uint256)
+          handler: handleRemoveShare
+        - event: Liquidate(indexed uint256,uint256)
+          handler: handleLiquidate
+      file: ./src/mapping/SushiETHKP3RGoblin.ts
   - kind: ethereum/contract
     name: ibETHAlphaUniswap
     network: mainnet
