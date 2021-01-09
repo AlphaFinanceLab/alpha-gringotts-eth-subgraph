@@ -852,3 +852,124 @@ export class UserIbETHAlphaLiquidity extends Entity {
     this.set("alphaAccGain", Value.fromBigInt(value));
   }
 }
+
+export class UserRewardState extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save UserRewardState entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save UserRewardState entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("UserRewardState", id.toString(), this);
+  }
+
+  static load(id: string): UserRewardState | null {
+    return store.get("UserRewardState", id) as UserRewardState | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get txHash(): string {
+    let value = this.get("txHash");
+    return value.toString();
+  }
+
+  set txHash(value: string) {
+    this.set("txHash", Value.fromString(value));
+  }
+
+  get user(): Bytes {
+    let value = this.get("user");
+    return value.toBytes();
+  }
+
+  set user(value: Bytes) {
+    this.set("user", Value.fromBytes(value));
+  }
+
+  get accAlpha(): BigInt {
+    let value = this.get("accAlpha");
+    return value.toBigInt();
+  }
+
+  set accAlpha(value: BigInt) {
+    this.set("accAlpha", Value.fromBigInt(value));
+  }
+
+  get latestAlphaMultiplier(): BigInt {
+    let value = this.get("latestAlphaMultiplier");
+    return value.toBigInt();
+  }
+
+  set latestAlphaMultiplier(value: BigInt) {
+    this.set("latestAlphaMultiplier", Value.fromBigInt(value));
+  }
+
+  get debtShare(): BigInt {
+    let value = this.get("debtShare");
+    return value.toBigInt();
+  }
+
+  set debtShare(value: BigInt) {
+    this.set("debtShare", Value.fromBigInt(value));
+  }
+
+  get blockTime(): BigInt {
+    let value = this.get("blockTime");
+    return value.toBigInt();
+  }
+
+  set blockTime(value: BigInt) {
+    this.set("blockTime", Value.fromBigInt(value));
+  }
+
+  get alphaGlobalTotalAccAlpha(): BigInt {
+    let value = this.get("alphaGlobalTotalAccAlpha");
+    return value.toBigInt();
+  }
+
+  set alphaGlobalTotalAccAlpha(value: BigInt) {
+    this.set("alphaGlobalTotalAccAlpha", Value.fromBigInt(value));
+  }
+
+  get alphaGlobalTotalShare(): BigInt {
+    let value = this.get("alphaGlobalTotalShare");
+    return value.toBigInt();
+  }
+
+  set alphaGlobalTotalShare(value: BigInt) {
+    this.set("alphaGlobalTotalShare", Value.fromBigInt(value));
+  }
+
+  get alphaGlobalMultiplier(): BigInt {
+    let value = this.get("alphaGlobalMultiplier");
+    return value.toBigInt();
+  }
+
+  set alphaGlobalMultiplier(value: BigInt) {
+    this.set("alphaGlobalMultiplier", Value.fromBigInt(value));
+  }
+
+  get alphaGlobalLatestBlockTime(): BigInt {
+    let value = this.get("alphaGlobalLatestBlockTime");
+    return value.toBigInt();
+  }
+
+  set alphaGlobalLatestBlockTime(value: BigInt) {
+    this.set("alphaGlobalLatestBlockTime", Value.fromBigInt(value));
+  }
+}

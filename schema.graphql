@@ -97,3 +97,17 @@ type UserIbETHAlphaLiquidity @entity {
   ibETHAccGain: BigInt!
   alphaAccGain: BigInt!
 }
+
+type UserRewardState @entity {
+  id: ID! # user-block number
+  txHash: String!
+  user: Bytes!
+  accAlpha: BigInt!
+  latestAlphaMultiplier: BigInt!
+  debtShare: BigInt!
+  blockTime: BigInt!
+  alphaGlobalTotalAccAlpha: BigInt!
+  alphaGlobalTotalShare: BigInt!
+  alphaGlobalMultiplier: BigInt!
+  alphaGlobalLatestBlockTime: BigInt!
+}
