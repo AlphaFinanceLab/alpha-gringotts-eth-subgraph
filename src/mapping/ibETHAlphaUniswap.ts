@@ -57,6 +57,8 @@ export function handleBurn(event: Burn) : void {
   
   // token0 is ibETH token
   // token1 is Alpha token
+  userLiquidity.ibETHStarting = userLiquidity.ibETHStarting.minus(event.params.amount0)
+  userLiquidity.alphaStarting = userLiquidity.alphaStarting.minus(event.params.amount1)
   userLiquidity.ibETHAccGain = userLiquidity.ibETHAccGain.plus(event.params.amount0)
   userLiquidity.alphaAccGain = userLiquidity.alphaAccGain.plus(event.params.amount1)
   userLiquidity.save()
