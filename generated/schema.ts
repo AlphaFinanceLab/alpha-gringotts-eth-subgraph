@@ -883,13 +883,13 @@ export class UserRewardState extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get txHash(): string {
+  get txHash(): Bytes {
     let value = this.get("txHash");
-    return value.toString();
+    return value.toBytes();
   }
 
-  set txHash(value: string) {
-    this.set("txHash", Value.fromString(value));
+  set txHash(value: Bytes) {
+    this.set("txHash", Value.fromBytes(value));
   }
 
   get user(): Bytes {

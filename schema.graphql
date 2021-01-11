@@ -100,7 +100,7 @@ type UserIbETHAlphaLiquidity @entity {
 
 type UserRewardState @entity {
   id: ID! # user-block number
-  txHash: String!
+  txHash: Bytes!
   user: Bytes!
   accAlpha: BigInt!
   latestAlphaMultiplier: BigInt!

@@ -1,4 +1,4 @@
-import { BigInt, Address, ByteArray, ethereum, Bytes } from "@graphprotocol/graph-ts";
+import { BigInt, Address, ByteArray, ethereum, Bytes, log } from "@graphprotocol/graph-ts";
 import {
   Bank,
   AddDebt,
@@ -9,7 +9,7 @@ import {
   RemoveDebt,
   Transfer
 } from "../../generated/Bank/Bank"
-import { ibETHTransfer, Balance, BankSummary, Position, AlphaGlobal, UserLender, UserBorrower } from "../../generated/schema";
+import { ibETHTransfer, Balance, BankSummary, Position, AlphaGlobal, UserLender, UserBorrower, UserRewardState } from "../../generated/schema";
 import {
   LENDER_ALPHA_PER_SEC,
   BORROWER_ALPHA_PER_SEC,
@@ -121,7 +121,10 @@ export function handleAddDebt(event: AddDebt) : void {
   user.debtShare = user.debtShare.plus(event.params.debtShare);
   user.blockTime = event.block.timestamp;
   global.save();
-  user.save()
+  user.save();
+
+  log.info("outside store state (add): {}", [user.id + "-" + event.block.number.toString()])
+  storeUserRewardState(user as UserBorrower, global as AlphaGlobal, event.transaction.hash, event.block.number)
 }
 
 export function handleWork(event: Work): void {
@@ -183,6 +186,9 @@ export function handleRemoveDebt(event: RemoveDebt): void {
   user.blockTime = event.block.timestamp;
   global.save();
   user.save()
+
+  log.info("outside store state (remove): {}", [user.id + "-" + event.block.number.toString()])
+  storeUserRewardState(user as UserBorrower, global as AlphaGlobal, event.transaction.hash, event.block.number)
 }
 
 export function handleTransfer(event: Transfer): void {
@@ -362,4 +368,19 @@ function max(a: BigInt, b: BigInt): BigInt {
   } else {
     return b;
   }
+}
+
+function storeUserRewardState(userBorrower: UserBorrower, alphaGlobal: AlphaGlobal, txHash: Bytes, blockNumber: BigInt): void {
+  let state = new UserRewardState(userBorrower.id + "-" + blockNumber.toString())
+  state.user = Address.fromHexString(userBorrower.id) as Bytes
+  state.txHash = txHash
+  state.accAlpha = userBorrower.accAlpha
+  state.latestAlphaMultiplier = userBorrower.latestAlphaMultiplier
+  state.debtShare = userBorrower.debtShare
+  state.blockTime = userBorrower.blockTime
+  state.alphaGlobalTotalAccAlpha = alphaGlobal.totalAccAlpha
+  state.alphaGlobalTotalShare = alphaGlobal.totalShare
+  state.alphaGlobalMultiplier = alphaGlobal.multiplier
+  state.alphaGlobalLatestBlockTime = alphaGlobal.latestBlockTime
+  state.save()
 }
