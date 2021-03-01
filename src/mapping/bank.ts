@@ -7,9 +7,17 @@ import {
   Kill,
   OwnershipTransferred,
   RemoveDebt,
-  Transfer
-} from "../../generated/Bank/Bank"
-import { ibETHTransfer, Balance, BankSummary, Position, AlphaGlobal, UserLender, UserBorrower } from "../../generated/schema";
+  Transfer,
+} from "../../generated/Bank/Bank";
+import {
+  ibETHTransfer,
+  Balance,
+  BankSummary,
+  Position,
+  AlphaGlobal,
+  UserLender,
+  UserBorrower,
+} from "../../generated/schema";
 import {
   LENDER_ALPHA_PER_SEC,
   BORROWER_ALPHA_PER_SEC,
@@ -76,11 +84,11 @@ import { log } from "@graphprotocol/graph-ts";
   // - contract.totalETH(...)
 } */
 
-export function handleAddDebt(event: AddDebt) : void {
+export function handleAddDebt(event: AddDebt): void {
   updatePosition(event.address, event.params.id);
   let end = BigInt.fromI32(END_REWARD_BLOCKTIME);
   if (event.block.timestamp.gt(end)) {
-    return
+    return;
   }
   let global = AlphaGlobal.load("borrower");
   if (global == null) {
@@ -121,7 +129,7 @@ export function handleAddDebt(event: AddDebt) : void {
   user.debtShare = user.debtShare.plus(event.params.debtShare);
   user.blockTime = event.block.timestamp;
   global.save();
-  user.save()
+  user.save();
 }
 
 export function handleWork(event: Work): void {
@@ -129,20 +137,20 @@ export function handleWork(event: Work): void {
   updateBankSummary(event.address);
 }
 
-export function handleApproval(event: Approval): void { }
+export function handleApproval(event: Approval): void {}
 
-export function handleKill(event: Kill): void { 
+export function handleKill(event: Kill): void {
   updatePosition(event.address, event.params.id);
   updateBankSummary(event.address);
 }
 
-export function handleOwnershipTransferred(event: OwnershipTransferred): void { }
+export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
 
 export function handleRemoveDebt(event: RemoveDebt): void {
   updatePosition(event.address, event.params.id);
   let end = BigInt.fromI32(END_REWARD_BLOCKTIME);
   if (event.block.timestamp.gt(end)) {
-    return
+    return;
   }
   let global = AlphaGlobal.load("borrower");
   if (global == null) {
@@ -182,35 +190,35 @@ export function handleRemoveDebt(event: RemoveDebt): void {
   user.debtShare = user.debtShare.minus(event.params.debtShare);
   user.blockTime = event.block.timestamp;
   global.save();
-  user.save()
+  user.save();
 }
 
 export function handleTransfer(event: Transfer): void {
-  let transactionId = event.transaction.hash.toHexString() + "-" + event.logIndex.toHexString()
-  let transfer = new ibETHTransfer(transactionId)
+  let transactionId = event.transaction.hash.toHexString() + "-" + event.logIndex.toHexString();
+  let transfer = new ibETHTransfer(transactionId);
 
-  transfer.from = event.params.from
-  transfer.to = event.params.to
-  transfer.value = event.params.value
-  transfer.save()
+  transfer.from = event.params.from;
+  transfer.to = event.params.to;
+  transfer.value = event.params.value;
+  transfer.save();
 
   // update sender account balance
-  let sender = Balance.load(event.params.from.toHexString())
+  let sender = Balance.load(event.params.from.toHexString());
   if (sender == null) {
-    sender = new Balance(event.params.from.toHexString())
-    sender.amount = BigInt.fromI32(0)
+    sender = new Balance(event.params.from.toHexString());
+    sender.amount = BigInt.fromI32(0);
   }
-  sender.amount = sender.amount.minus(transfer.value)
-  sender.save()
+  sender.amount = sender.amount.minus(transfer.value);
+  sender.save();
 
   // update recipient account balance
-  let recipient = Balance.load(event.params.to.toHexString())
+  let recipient = Balance.load(event.params.to.toHexString());
   if (recipient == null) {
-    recipient = new Balance(event.params.to.toHexString())
-    recipient.amount = BigInt.fromI32(0)
+    recipient = new Balance(event.params.to.toHexString());
+    recipient.amount = BigInt.fromI32(0);
   }
-  recipient.amount = recipient.amount.plus(transfer.value)
-  recipient.save()
+  recipient.amount = recipient.amount.plus(transfer.value);
+  recipient.save();
 
   // Update user
   let userAddresses: Address[];
@@ -278,7 +286,8 @@ export function handleTransfer(event: Transfer): void {
     ) {
       global.totalShare = global.totalShare.minus(transfer.value);
       user.ibETH = user.ibETH.minus(transfer.value);
-    } else { // transfer event
+    } else {
+      // transfer event
       if (event.params.to.equals(userAddress)) {
         user.ibETH = user.ibETH.plus(transfer.value);
       } else if (event.params.from.equals(userAddress)) {
@@ -294,9 +303,9 @@ export function handleTransfer(event: Transfer): void {
 }
 
 function updateBankSummary(bankAddress: Address): BankSummary {
-  let summary = BankSummary.load("Gringotts")
+  let summary = BankSummary.load("Gringotts");
   if (summary == null) {
-    summary = new BankSummary("Gringotts")
+    summary = new BankSummary("Gringotts");
     summary.ibETHSupply = BigInt.fromI32(0);
     summary.totalETH = BigInt.fromI32(0);
     summary.totalDebtShare = BigInt.fromI32(0);
@@ -305,29 +314,29 @@ function updateBankSummary(bankAddress: Address): BankSummary {
     summary.reservePool = BigInt.fromI32(0);
   }
   let bank = Bank.bind(bankAddress);
-  summary.ibETHSupply = bank.totalSupply()
-  summary.totalETH = bank.totalETH()
-  summary.totalDebtShare = bank.glbDebtShare()
-  summary.totalDebtValue = bank.glbDebtVal()
-  summary.totalPosition = bank.nextPositionID().minus(BigInt.fromI32(1))
-  summary.reservePool = bank.reservePool()
-  summary.save()
+  summary.ibETHSupply = bank.totalSupply();
+  summary.totalETH = bank.totalETH();
+  summary.totalDebtShare = bank.glbDebtShare();
+  summary.totalDebtValue = bank.glbDebtVal();
+  summary.totalPosition = bank.nextPositionID().minus(BigInt.fromI32(1));
+  summary.reservePool = bank.reservePool();
+  summary.save();
   return summary as BankSummary;
 }
 
 function updatePosition(bankAddress: Address, positionId: BigInt): void {
-  let id = positionId.toString()
-  let position = Position.load(id)
+  let id = positionId.toString();
+  let position = Position.load(id);
   if (position == null) {
-    position = new Position(id)
-    position.debtShare = BigInt.fromI32(0)
+    position = new Position(id);
+    position.debtShare = BigInt.fromI32(0);
   }
   let bank = Bank.bind(bankAddress);
-  let result = bank.positions(positionId)
-  position.goblin = result.value0
-  position.owner = result.value1
-  position.debtShare = result.value2
-  position.save()
+  let result = bank.positions(positionId);
+  position.goblin = result.value0;
+  position.owner = result.value1;
+  position.debtShare = result.value2;
+  position.save();
 }
 
 function calculateNewAlphaMultiplier(
@@ -350,9 +359,9 @@ function calculateNewAlphaMultiplier(
 
 function min(a: BigInt, b: BigInt): BigInt {
   if (a.lt(b)) {
-    return a
+    return a;
   } else {
-    return b
+    return b;
   }
 }
 
